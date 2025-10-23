@@ -39,51 +39,7 @@
 </head>
 <body class="gradient-bg min-h-screen" dir="rtl">
     
-    <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-lg shadow-sm border-b border-white/20">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-900">إكسابها</h1>
-                        <p class="text-xs text-gray-500">سوق الإعلانات المبوبة</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    @auth
-                        <a href="{{ route('products.create') }}" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-                            + إضافة إعلان
-                        </a>
-                        <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition">
-                            إعلاناتي
-                        </a>
-                        <a href="{{ route('profile.edit') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition">
-                            الملف الشخصي
-                        </a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="px-4 py-2 text-gray-700 hover:text-red-600 transition">
-                                تسجيل الخروج
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition">
-                            تسجيل الدخول
-                        </a>
-                        <a href="{{ route('register') }}" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-                            إنشاء حساب
-                        </a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </header>
+    <x-navbar />
 
     <!-- Hero Section -->
     <section class="py-12 relative z-10">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>إضافة إعلان جديد - إكسابها</title>
+    <title>تعديل الإعلان - إكسابها</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,7 @@
 </head>
 <body class="gradient-bg min-h-screen" dir="rtl">
     
-    <x-navbar subtitle="إضافة إعلان جديد" />
+    <x-navbar subtitle="تعديل الإعلان" />
 
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8 relative z-10">
@@ -47,11 +47,22 @@
             
             <!-- Page Header -->
             <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">إضافة إعلان جديد</h2>
-                <p class="text-gray-600">أضف تفاصيل منتجك لبدء البيع</p>
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">تعديل الإعلان</h2>
+                <p class="text-gray-600">قم بتحديث تفاصيل منتجك</p>
             </div>
 
-            @livewire('create-product')
+            @if (session()->has('message'))
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-green-800">{{ session('message') }}</p>
+                    </div>
+                </div>
+            @endif
+
+            @livewire('edit-product', ['product' => $product])
         </div>
     </div>
 

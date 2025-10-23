@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>إضافة إعلان جديد - إكسابها</title>
+    <title>{{ $product->title }} - إكسابها</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,19 +39,27 @@
 </head>
 <body class="gradient-bg min-h-screen" dir="rtl">
     
-    <x-navbar subtitle="إضافة إعلان جديد" />
+    <x-navbar />
+
+    <!-- Breadcrumb -->
+    <div class="container mx-auto px-4 py-4 relative z-10">
+        <nav class="flex items-center gap-2 text-sm text-gray-600">
+            <a href="/" class="hover:text-purple-600 transition">الرئيسية</a>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            <a href="{{ route('products.index') }}" class="hover:text-purple-600 transition">المنتجات</a>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            <span class="text-gray-900">{{ $product->title }}</span>
+        </nav>
+    </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8 relative z-10">
-        <div class="max-w-4xl mx-auto">
-            
-            <!-- Page Header -->
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">إضافة إعلان جديد</h2>
-                <p class="text-gray-600">أضف تفاصيل منتجك لبدء البيع</p>
-            </div>
-
-            @livewire('create-product')
+    <div class="container mx-auto px-4 pb-12 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            @livewire('product-details', ['product' => $product])
         </div>
     </div>
 

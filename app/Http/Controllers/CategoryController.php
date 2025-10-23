@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('children')
+        $categories = Category::with(['children', 'products'])
             ->root()
             ->active()
             ->orderBy('order')

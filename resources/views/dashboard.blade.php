@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Str; @endphp
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -17,40 +18,7 @@
 </head>
 <body class="bg-gray-50" dir="rtl">
     
-    <!-- Header -->
-    <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-900">إكسابها</h1>
-                        <p class="text-xs text-gray-500">إعلاناتي</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('products.index') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition">
-                        تصفح المنتجات
-                    </a>
-                    <a href="{{ route('profile.edit') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition">
-                        الملف الشخصي
-                    </a>
-                    <span class="text-gray-700">مرحباً، {{ Auth::user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="px-4 py-2 text-gray-700 hover:text-red-600 transition">
-                            تسجيل خروج
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </header>
+    <x-navbar subtitle="إعلاناتي" />
 
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8">
@@ -79,7 +47,7 @@
                     </div>
                     <div class="mr-4">
                         <p class="text-sm font-medium text-gray-600">إجمالي الإعلانات</p>
-                        <p class="text-2xl font-bold text-gray-900">12</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $stats['total'] }}</p>
                     </div>
                 </div>
             </div>
@@ -93,7 +61,7 @@
                     </div>
                     <div class="mr-4">
                         <p class="text-sm font-medium text-gray-600">إعلانات نشطة</p>
-                        <p class="text-2xl font-bold text-gray-900">8</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $stats['active'] }}</p>
                     </div>
                 </div>
             </div>
@@ -108,7 +76,7 @@
                     </div>
                     <div class="mr-4">
                         <p class="text-sm font-medium text-gray-600">إجمالي المشاهدات</p>
-                        <p class="text-2xl font-bold text-gray-900">1,234</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['views']) }}</p>
                     </div>
                 </div>
             </div>
@@ -121,8 +89,8 @@
                         </svg>
                     </div>
                     <div class="mr-4">
-                        <p class="text-sm font-medium text-gray-600">إجمالي المبيعات</p>
-                        <p class="text-2xl font-bold text-gray-900">45,600 رس</p>
+                        <p class="text-sm font-medium text-gray-600">قيمة الإعلانات</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['revenue']) }} رس</p>
                     </div>
                 </div>
             </div>
@@ -135,37 +103,77 @@
             </div>
             
             <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Product Card 1 -->
-                    <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition">
-                        <div class="aspect-square bg-gray-200 relative">
-                            <div class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                                نشط
+                @if($products->count() > 0)
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach($products->take(6) as $product)
+                            <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition">
+                                <div class="aspect-square bg-gray-200 relative">
+                                    <div class="absolute top-3 right-3 {{ $product->status ? 'bg-green-500' : 'bg-gray-500' }} text-white px-2 py-1 rounded-full text-xs font-semibold">
+                                        {{ $product->status ? 'نشط' : 'مسودة' }}
+                                    </div>
+                                    @if($product->getFirstMediaUrl('images'))
+                                        <img src="{{ $product->getFirstMediaUrl('images') }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="absolute inset-0 flex items-center justify-center text-gray-400">
+                                            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">{{ Str::limit($product->title, 30) }}</h4>
+                                    <p class="text-gray-600 text-sm mb-3">{{ $product->category->name }} - 
+                                        @switch($product->condition)
+                                            @case('new') جديد @break
+                                            @case('like_new') شبه جديد @break
+                                            @case('good') جيد @break
+                                            @case('fair') مقبول @break
+                                            @case('poor') يحتاج إصلاح @break
+                                        @endswitch
+                                    </p>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-xl font-bold text-purple-600">{{ number_format($product->price) }} رس</span>
+                                        <span class="text-sm text-gray-500">{{ $product->views_count }} مشاهدة</span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <a href="{{ route('products.edit', $product->slug) }}" class="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition text-center">
+                                            تعديل
+                                        </a>
+                                        <button class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition">
+                                            حذف
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="absolute inset-0 flex items-center justify-center text-gray-400">
-                                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h4 class="font-semibold text-gray-900 mb-2">آيفون 13 برو ماكس</h4>
-                            <p class="text-gray-600 text-sm mb-3">حالة ممتازة - 256 جيجا</p>
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-xl font-bold text-purple-600">4,500 رس</span>
-                                <span class="text-sm text-gray-500">156 مشاهدة</span>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition">
-                                    تعديل
-                                </button>
-                                <button class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition">
-                                    حذف
-                                </button>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
-                </div>
+                    
+                    @if($products->count() > 6)
+                        <div class="mt-6 text-center">
+                            <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+                                عرض جميع الإعلانات ({{ $products->count() }})
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    @endif
+                @else
+                    <div class="text-center py-12">
+                        <svg class="w-24 h-24 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">لا توجد إعلانات بعد</h3>
+                        <p class="text-gray-500 mb-6">ابدأ بإضافة أول إعلان لك</p>
+                        <a href="{{ route('products.create') }}" class="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            إضافة إعلان جديد
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

@@ -81,7 +81,7 @@
     <!-- Products Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         @forelse($products as $product)
-            <div class="elegant-card rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group">
+            <a href="{{ route('products.show', $product->slug) }}" class="block elegant-card rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group">
                 <!-- Product Image -->
                 <div class="relative h-48 bg-gray-200 overflow-hidden">
                     @if($product->getFirstMediaUrl('images'))
@@ -174,11 +174,11 @@
 
                 <!-- Hover Actions -->
                 <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <button class="px-6 py-2 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    <span class="px-6 py-2 bg-white text-gray-900 rounded-lg font-semibold">
                         عرض التفاصيل
-                    </button>
+                    </span>
                 </div>
-            </div>
+            </a>
         @empty
             <div class="col-span-full">
                 <div class="elegant-card rounded-3xl shadow-xl p-12 text-center">

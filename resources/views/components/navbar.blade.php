@@ -1,4 +1,4 @@
-<header class="bg-white/80 backdrop-blur-lg shadow-sm border-b border-white/20">
+<header class="bg-white/80 backdrop-blur-lg shadow-sm border-b border-white/20 sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
             <!-- Logo -->
@@ -34,6 +34,18 @@
             <!-- Auth Buttons -->
             <div class="flex items-center gap-3">
                 @auth
+                    <!-- Notifications -->
+                    <a href="{{ route('notifications.index') }}" class="relative p-2 text-gray-700 hover:text-purple-600 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </span>
+                        @endif
+                    </a>
+                    
                     <!-- User Dropdown -->
                     <div class="relative group">
                         <button class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-purple-600 transition">
@@ -54,6 +66,24 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v0"></path>
                                     </svg>
                                     إعلاناتي
+                                </a>
+                                <a href="{{ route('orders.index') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition {{ request()->is('orders') ? 'bg-purple-50 text-purple-600' : '' }}">
+                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                    </svg>
+                                    طلباتي
+                                </a>
+                                <a href="{{ route('orders.sales') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition {{ request()->is('sales') ? 'bg-purple-50 text-purple-600' : '' }}">
+                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    المبيعات
+                                </a>
+                                <a href="{{ route('favorites.index') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition {{ request()->is('favorites*') ? 'bg-purple-50 text-purple-600' : '' }}">
+                                    <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    المفضلة
                                 </a>
                                 <a href="{{ route('products.create') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition {{ request()->is('products/create') ? 'bg-purple-50 text-purple-600' : '' }}">
                                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,6 +143,15 @@
                     </a>
                     <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('myAds') ? 'text-purple-600 font-semibold' : '' }}">
                         إعلاناتي
+                    </a>
+                    <a href="{{ route('orders.index') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('orders') ? 'text-purple-600 font-semibold' : '' }}">
+                        طلباتي
+                    </a>
+                    <a href="{{ route('orders.sales') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('sales') ? 'text-purple-600 font-semibold' : '' }}">
+                        المبيعات
+                    </a>
+                    <a href="{{ route('favorites.index') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('favorites*') ? 'text-purple-600 font-semibold' : '' }}">
+                        المفضلة
                     </a>
                 @endauth
             </div>

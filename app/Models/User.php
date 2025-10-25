@@ -71,4 +71,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class, 'seller_id');
     }
+
+    /**
+     * Get user's favorites.
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }

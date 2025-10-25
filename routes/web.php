@@ -70,4 +70,28 @@ Route::get('/categories/{category:slug}/edit', [CategoryController::class, 'edit
 Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
+// Orders routes
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\NotificationController;
+
+Route::middleware('auth')->group(function () {
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/sales', [OrderController::class, 'sales'])->name('orders.sales');
+    Route::get('/orders/create/{product}', [OrderController::class, 'create'])->name('orders.create');
+    Route::post('/orders/{product}', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    
+    // Favorites routes
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{product}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    
+    // Notifications routes
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/mark-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+});
+
 require __DIR__.'/auth.php';

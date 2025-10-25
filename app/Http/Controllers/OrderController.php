@@ -9,17 +9,29 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     /**
-     * Display a listing of orders.
+     * Display a listing of orders (as buyer).
      */
     public function index()
     {
         $orders = Order::with(['product', 'buyer', 'seller'])
             ->where('buyer_id', auth()->id())
-            ->orWhere('seller_id', auth()->id())
             ->latest()
             ->paginate(20);
 
         return view('orders.index', compact('orders'));
+    }
+
+    /**
+     * Display sales orders (as seller).
+     */
+    public function sales()
+    {
+        $orders = Order::with(['product', 'buyer', 'seller'])
+            ->where('seller_id', auth()->id())
+            ->latest()
+            ->paginate(20);
+
+        return view('orders.sales', compact('orders'));
     }
 
     /**
@@ -43,6 +55,7 @@ class OrderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
+        $validated['tenant_id'] = $product->tenant_id;
         $validated['product_id'] = $product->id;
         $validated['seller_id'] = $product->user_id;
         $validated['buyer_id'] = auth()->id();
@@ -51,7 +64,7 @@ class OrderController extends Controller
 
         $order = Order::create($validated);
 
-        // Here you can send notifications to buyer and seller
+        $product->user->notify(new \App\Notifications\NewOrderNotification($order));
 
         return redirect()
             ->route('orders.show', $order)
@@ -63,9 +76,11 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $this->authorize('view', $order);
+        if ($order->buyer_id !== auth()->id() && $order->seller_id !== auth()->id()) {
+            abort(403);
+        }
+        
         $order->load(['product', 'buyer', 'seller']);
-
         return view('orders.show', compact('order'));
     }
 
@@ -74,7 +89,9 @@ class OrderController extends Controller
      */
     public function updateStatus(Request $request, Order $order)
     {
-        $this->authorize('update', $order);
+        if ($order->seller_id !== auth()->id()) {
+            abort(403);
+        }
 
         $validated = $request->validate([
             'status' => 'required|in:pending,confirmed,completed,cancelled',

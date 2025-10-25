@@ -131,8 +131,22 @@
 
             <!-- Action Buttons -->
             <div class="space-y-3">
+                @auth
+                    @if(auth()->id() !== $product->user_id)
+                        <a href="{{ route('orders.create', $product) }}" 
+                           class="block w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg text-center">
+                            طلب الشراء الآن
+                        </a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" 
+                       class="block w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg text-center">
+                        سجل دخول للشراء
+                    </a>
+                @endauth
+                
                 <button wire:click="toggleContactInfo" 
-                        class="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg">
+                        class="w-full py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all">
                     @if($showContactInfo)
                         إخفاء معلومات التواصل
                     @else
@@ -140,13 +154,17 @@
                     @endif
                 </button>
                 
-                <button class="w-full py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all">
-                    إرسال رسالة للبائع
-                </button>
-                
-                <button class="w-full py-4 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all">
-                    إضافة للمفضلة
-                </button>
+                @auth
+                    <form action="{{ route('favorites.toggle', $product) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full py-4 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                            </svg>
+                            إضافة للمفضلة
+                        </button>
+                    </form>
+                @endauth
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@
     <title>الإشعارات - إكسابها</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    @livewireStyles
     <style>
         body { font-family: 'Tajawal', sans-serif; }
         .gradient-bg {
@@ -30,8 +31,17 @@
 
     <section class="py-12 relative z-10">
         <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-4xl font-bold text-gray-900">الإشعارات</h2>
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">الإشعارات</h2>
+
+            <div class="max-w-4xl mx-auto">
+                @livewire('notifications-list')
+            </div>
+        </div>
+    </section>
+
+    @livewireScripts
+</body>
+</html>
                 @if($notifications->where('read_at', null)->count() > 0)
                     <form action="{{ route('notifications.markAllAsRead') }}" method="POST">
                         @csrf

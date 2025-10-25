@@ -6,6 +6,7 @@
     <title>المفضلة - إكسابها</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    @livewireStyles
     <style>
         body { font-family: 'Tajawal', sans-serif; }
         .gradient-bg {
@@ -31,6 +32,16 @@
     <section class="py-12 relative z-10">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">المفضلة</h2>
+
+            <div class="max-w-6xl mx-auto">
+                @livewire('favorites-list')
+            </div>
+        </div>
+    </section>
+
+    @livewireScripts
+</body>
+</html>
 
             @if($favorites->count() > 0)
                 <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

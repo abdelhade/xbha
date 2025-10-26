@@ -73,6 +73,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get orders where user is seller (alias).
+     */
+    public function sales()
+    {
+        return $this->soldOrders();
+    }
+
+    /**
      * Get user's favorites.
      */
     public function favorites()

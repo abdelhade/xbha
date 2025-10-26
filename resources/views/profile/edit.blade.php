@@ -100,15 +100,15 @@
                     <!-- Quick Stats -->
                     <div class="grid grid-cols-3 gap-6 text-center">
                         <div>
-                            <div class="text-2xl font-bold text-purple-600">12</div>
+                            <div class="text-2xl font-bold text-purple-600">{{ Auth::user()->products()->count() }}</div>
                             <div class="text-sm text-gray-600">إعلان</div>
                         </div>
                         <div>
-                            <div class="text-2xl font-bold text-blue-600">1.2K</div>
+                            <div class="text-2xl font-bold text-blue-600">{{ Auth::user()->products()->sum('views_count') }}</div>
                             <div class="text-sm text-gray-600">مشاهدة</div>
                         </div>
                         <div>
-                            <div class="text-2xl font-bold text-green-600">8</div>
+                            <div class="text-2xl font-bold text-green-600">{{ Auth::user()->sales()->where('status', 'completed')->count() }}</div>
                             <div class="text-sm text-gray-600">مبيعة</div>
                         </div>
                     </div>

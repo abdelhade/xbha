@@ -13,12 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(['product', 'buyer', 'seller'])
-            ->where('buyer_id', auth()->id())
-            ->latest()
-            ->paginate(20);
-
-        return view('orders.index', compact('orders'));
+        return view('orders.index');
     }
 
     /**
@@ -26,12 +21,7 @@ class OrderController extends Controller
      */
     public function sales()
     {
-        $orders = Order::with(['product', 'buyer', 'seller'])
-            ->where('seller_id', auth()->id())
-            ->latest()
-            ->paginate(20);
-
-        return view('orders.sales', compact('orders'));
+        return view('orders.sales');
     }
 
     /**

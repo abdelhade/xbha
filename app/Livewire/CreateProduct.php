@@ -43,6 +43,12 @@ class CreateProduct extends Component
         'images.*.max' => 'حجم الصورة يجب أن يكون أقل من 2 ميجا',
     ];
 
+    public function removeImage($index)
+    {
+        unset($this->images[$index]);
+        $this->images = array_values($this->images);
+    }
+
     public function save($isDraft = false)
     {
         $this->status = !$isDraft;
@@ -62,13 +68,15 @@ class CreateProduct extends Component
         ]);
 
         // Upload images
-        if ($this->images) {
-            foreach ($this->images as $image) {
-                $product->addMediaFromStream($image->stream())
-                    ->usingName($image->getClientOriginalName())
-                    ->toMediaCollection('images');
-            }
-        }
+  if ($this->images && count($this->images) > 0) {
+    foreach ($this->images as $image) {
+        $path = $image->store('products', 'public'); // يخزن الصورة فعلياً
+        $product->addMedia(storage_path('app/public/' . $path))
+                ->usingName($image->getClientOriginalName())
+                ->toMediaCollection('images');
+    }
+}
+
 
         session()->flash('message', $isDraft ? 'تم حفظ الإعلان كمسودة' : 'تم نشر الإعلان بنجاح');
         

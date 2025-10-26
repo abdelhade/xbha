@@ -9,8 +9,7 @@ class FavoriteController extends Controller
 {
     public function index()
     {
-        $favorites = auth()->user()->favorites()->with('product.media')->latest()->get();
-        return view('favorites.index', compact('favorites'));
+        return view('favorites.index');
     }
 
     public function toggle(Product $product)

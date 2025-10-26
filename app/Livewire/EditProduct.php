@@ -47,7 +47,7 @@ class EditProduct extends Component
 
     public function mount(Product $product)
     {
-        // Check if user owns this product
+        // 🔒 تأكيد أن المستخدم هو صاحب المنتج
         if ($product->user_id !== auth()->id()) {
             abort(403);
         }
@@ -71,16 +71,14 @@ class EditProduct extends Component
 
     public function unmarkImageForDeletion($mediaId)
     {
-        $this->imagesToDelete = array_filter($this->imagesToDelete, function($id) use ($mediaId) {
-            return $id != $mediaId;
-        });
+        $this->imagesToDelete = array_filter($this->imagesToDelete, fn($id) => $id != $mediaId);
     }
 
     public function update()
     {
         $this->validate();
 
-        // Update product
+        // ✅ تحديث بيانات المنتج
         $this->product->update([
             'title' => $this->title,
             'slug' => Str::slug($this->title) . '-' . time(),
@@ -92,7 +90,7 @@ class EditProduct extends Component
             'status' => $this->status,
         ]);
 
-        // Delete marked images
+        // ✅ حذف الصور المحددة
         if (!empty($this->imagesToDelete)) {
             foreach ($this->imagesToDelete as $mediaId) {
                 $media = $this->product->getMedia('images')->where('id', $mediaId)->first();
@@ -102,17 +100,20 @@ class EditProduct extends Component
             }
         }
 
-        // Add new images
-        if ($this->newImages) {
+        // ✅ رفع الصور الجديدة بالطريقة الصحيحة
+        if ($this->newImages && count($this->newImages) > 0) {
             foreach ($this->newImages as $image) {
-                $this->product->addMediaFromStream($image->stream())
+                // نخزن الصورة أولًا في مجلد مؤقت داخل storage
+                $path = $image->store('products', 'public');
+
+                // بعد كده نضيفها لمكتبة Spatie
+                $this->product->addMedia(storage_path('app/public/' . $path))
                     ->usingName($image->getClientOriginalName())
                     ->toMediaCollection('images');
             }
         }
 
         session()->flash('message', 'تم تحديث الإعلان بنجاح');
-        
         return redirect()->route('dashboard');
     }
 
@@ -120,7 +121,7 @@ class EditProduct extends Component
     {
         return view('livewire.edit-product', [
             'categories' => Category::active()->get(),
-            'existingImages' => $this->product->getMedia('images')
+            'existingImages' => $this->product->getMedia('images'),
         ]);
     }
 }

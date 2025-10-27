@@ -8,10 +8,14 @@
     @if($favorites->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($favorites as $favorite)
+                @php
+                    $product = auth()->check() ? $favorite->product : $favorite;
+                    $favoriteId = auth()->check() ? $favorite->id : $product->id;
+                @endphp
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
-                    @if($favorite->product->getFirstMediaUrl('images'))
-                        <img src="{{ $favorite->product->getFirstMediaUrl('images') }}" 
-                             alt="{{ $favorite->product->title }}" 
+                    @if($product->getFirstMediaUrl('images'))
+                        <img src="{{ $product->getFirstMediaUrl('images') }}" 
+                             alt="{{ $product->title }}" 
                              class="w-full h-48 object-cover">
                     @else
                         <div class="w-full h-48 bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
@@ -22,15 +26,15 @@
                     @endif
                     
                     <div class="p-4">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $favorite->product->title }}</h3>
-                        <p class="text-purple-600 font-bold text-xl mb-3">{{ number_format($favorite->product->price) }} ريال</p>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $product->title }}</h3>
+                        <p class="text-purple-600 font-bold text-xl mb-3">{{ number_format($product->price) }} ريال</p>
                         
                         <div class="flex gap-2">
-                            <a href="{{ route('products.show', $favorite->product) }}" 
+                            <a href="{{ route('products.show', $product) }}" 
                                class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-center">
                                 عرض
                             </a>
-                            <button wire:click="removeFavorite({{ $favorite->id }})" 
+                            <button wire:click="removeFavorite({{ $favoriteId }})" 
                                     wire:confirm="هل تريد إزالة هذا المنتج من المفضلة؟"
                                     class="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

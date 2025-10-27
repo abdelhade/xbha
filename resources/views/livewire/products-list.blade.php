@@ -79,7 +79,7 @@
     </div>
 
     <!-- Products Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
         @forelse($products as $product)
             <a href="{{ route('products.show', $product->slug) }}" class="block elegant-card rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group">
                 <!-- Product Image -->

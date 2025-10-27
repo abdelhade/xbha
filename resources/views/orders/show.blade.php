@@ -45,7 +45,10 @@
                                 @elseif($order->status === 'completed') bg-green-100 text-green-800
                                 @elseif($order->status === 'cancelled') bg-red-100 text-red-800
                                 @else bg-blue-100 text-blue-800 @endif">
-                                {{ $order->status }}
+                                @if($order->status === 'pending') قيد الانتظار
+                                @elseif($order->status === 'completed') مكتمل
+                                @elseif($order->status === 'cancelled') ملغي
+                                @else {{ $order->status }} @endif
                             </span>
                         </div>
 
@@ -92,8 +95,52 @@
                             </div>
                         @endif
 
+                        @if($order->status === 'pending')
+                            @if(auth()->id() === $order->seller_id)
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold mb-3">تغيير حالة الطلب</h3>
+                                    <div class="flex gap-3">
+                                        <form action="{{ route('orders.updateStatus', $order) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="completed">
+                                            <button type="submit" 
+                                                    class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold">
+                                                ✓ تم التسليم
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('orders.updateStatus', $order) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="cancelled">
+                                            <button type="submit" 
+                                                    onclick="return confirm('هل أنت متأكد من إلغاء الطلب؟')"
+                                                    class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold">
+                                                ✕ إلغاء الطلب
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @elseif(auth()->id() === $order->buyer_id)
+                                <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                                    <h3 class="text-lg font-semibold mb-3">إلغاء الطلب</h3>
+                                    <p class="text-gray-600 text-sm mb-3">يمكنك إلغاء الطلب إذا لم يتم التسليم بعد</p>
+                                    <form action="{{ route('orders.updateStatus', $order) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="cancelled">
+                                        <button type="submit" 
+                                                onclick="return confirm('هل أنت متأكد من إلغاء الطلب؟')"
+                                                class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold">
+                                            ✕ إلغاء الطلب
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endif
+
                         <div class="flex gap-3 pt-4">
-                            <a href="{{ route('orders.index') }}" 
+                            <a href="{{ auth()->id() === $order->seller_id ? route('orders.sales') : route('orders.index') }}" 
                                class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
                                 العودة
                             </a>

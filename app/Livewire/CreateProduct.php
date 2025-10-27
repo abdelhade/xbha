@@ -21,20 +21,23 @@ class CreateProduct extends Component
     public $images = [];
     public $status = true;
 
-    protected $rules = [
-        'title' => 'required|string|max:255',
-        'category_id' => 'required|exists:categories,id',
-        'price' => 'required|numeric|min:0',
-        'condition' => 'required|in:new,like_new,good,fair,poor',
-        'location' => 'required|string|max:255',
-        'description' => 'required|string|min:10',
-        'images.*' => 'image|max:2048',
-    ];
+    public function rules()
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0|max:999999999',
+            'condition' => 'required|in:new,like_new,good,fair,poor',
+            'location' => 'required|string|max:255',
+            'description' => 'required|string|min:10',
+        ];
+    }
 
     protected $messages = [
         'title.required' => 'عنوان الإعلان مطلوب',
         'category_id.required' => 'التصنيف مطلوب',
         'price.required' => 'السعر مطلوب',
+        'price.max' => 'السعر أكبر من اللازم',
         'condition.required' => 'حالة المنتج مطلوبة',
         'location.required' => 'الموقع مطلوب',
         'description.required' => 'وصف المنتج مطلوب',
@@ -68,14 +71,15 @@ class CreateProduct extends Component
         ]);
 
         // Upload images
-  if ($this->images && count($this->images) > 0) {
-    foreach ($this->images as $image) {
-        $path = $image->store('products', 'public'); // يخزن الصورة فعلياً
-        $product->addMedia(storage_path('app/public/' . $path))
-                ->usingName($image->getClientOriginalName())
-                ->toMediaCollection('images');
-    }
-}
+        if ($this->images && count($this->images) > 0) {
+            foreach ($this->images as $image) {
+                if ($image && is_object($image)) {
+                    $product->addMedia($image->getRealPath())
+                        ->usingName($image->getClientOriginalName())
+                        ->toMediaCollection('images');
+                }
+            }
+        }
 
 
         session()->flash('message', $isDraft ? 'تم حفظ الإعلان كمسودة' : 'تم نشر الإعلان بنجاح');

@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('product_title');
+            $table->decimal('product_price', 10, 2);
+            $table->string('product_condition')->nullable();
             $table->foreignId('buyer_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
             $table->string('order_number')->unique();

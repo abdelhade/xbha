@@ -47,6 +47,9 @@ class OrderController extends Controller
 
         $validated['tenant_id'] = $product->tenant_id;
         $validated['product_id'] = $product->id;
+        $validated['product_title'] = $product->title;
+        $validated['product_price'] = $product->price;
+        $validated['product_condition'] = $product->condition;
         $validated['seller_id'] = $product->user_id;
         $validated['buyer_id'] = auth()->id();
         $validated['total_amount'] = $product->price;
@@ -79,21 +82,24 @@ class OrderController extends Controller
      */
     public function updateStatus(Request $request, Order $order)
     {
-        if ($order->seller_id !== auth()->id()) {
+        // Allow seller to change any status, buyer can only cancel
+        if ($order->seller_id !== auth()->id() && $order->buyer_id !== auth()->id()) {
             abort(403);
         }
 
         $validated = $request->validate([
-            'status' => 'required|in:pending,confirmed,completed,cancelled',
-            'cancellation_reason' => 'required_if:status,cancelled|nullable|string',
+            'status' => 'required|in:pending,completed,cancelled',
         ]);
 
-        if ($validated['status'] === Order::STATUS_COMPLETED) {
-            $order->markAsCompleted();
-        } elseif ($validated['status'] === Order::STATUS_CANCELLED) {
-            $order->cancel($validated['cancellation_reason'] ?? null);
-        } else {
-            $order->update(['status' => $validated['status']]);
+        // Buyer can only cancel
+        if ($order->buyer_id === auth()->id() && $validated['status'] !== 'cancelled') {
+            abort(403);
+        }
+
+        $order->update(['status' => $validated['status']]);
+        
+        if ($validated['status'] === 'completed') {
+            $order->update(['completed_at' => now()]);
         }
 
         return redirect()

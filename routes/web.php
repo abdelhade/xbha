@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 Route::get('/', function () {
-    return view('welcome');
+    $products = Product::with(['category', 'user'])
+        ->where('status', true)
+        ->latest()
+        ->take(10)
+        ->get();
+    return view('welcome', compact('products'));
 });
 
 Route::get('/products', function () {
@@ -54,6 +59,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{product:slug}/edit', function (Product $product) {
         return view('products.edit', compact('product'));
     })->name('products.edit');
+    
+    Route::delete('/products/{product:slug}', function (Product $product) {
+        $product->delete();
+        return redirect()->route('dashboard')->with('message', 'تم حذف الإعلان بنجاح');
+    })->name('products.destroy');
 });
 
 // Product show route (public)

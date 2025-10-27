@@ -9,6 +9,7 @@ class ChatList extends Component
 {
     public function render()
     {
+        
         $userId = auth()->id();
         
         $conversations = Message::where('sender_id', $userId)

@@ -1,3 +1,4 @@
+
 <div wire:poll.3s>
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <div class="bg-purple-600 p-4 flex items-center gap-3">

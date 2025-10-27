@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class ChatShow extends Component
 {
+    
     public $userId;
     public $user;
     public $message = '';

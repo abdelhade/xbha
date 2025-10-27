@@ -1,3 +1,4 @@
+
 <div wire:poll.5s>
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         @forelse($conversations as $conversation)

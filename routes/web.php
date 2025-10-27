@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 Route::get('/', function () {
-    $products = Product::with(['category', 'user'])
-        ->where('status', true)
-        ->latest()
-        ->take(10)
-        ->get();
-    return view('welcome', compact('products'));
+    $categories = \App\Models\Category::with(['products' => function($q) {
+        $q->where('status', true)->with('user')->latest()->take(5);
+    }])->get();
+    return view('welcome', compact('categories'));
 });
 
 Route::get('/products', function () {

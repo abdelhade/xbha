@@ -33,7 +33,49 @@
 
             <!-- Auth Buttons -->
             <div class="flex items-center gap-3">
+                <a href="{{ route('favorites.index') }}" class="relative p-2 text-gray-700 hover:text-purple-600 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    @php
+                        $favCount = auth()->check() ? auth()->user()->favorites()->count() : count(session()->get('favorites', []));
+                    @endphp
+                    @if($favCount > 0)
+                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                            {{ $favCount }}
+                        </span>
+                    @endif
+                </a>
                 @auth
+                    <!-- Chat -->
+                    <a href="{{ route('chat.index') }}" class="relative p-2 text-gray-700 hover:text-purple-600 transition" id="chat-icon">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        @php
+                            $unreadCount = \App\Models\Message::where('receiver_id', auth()->id())->where('is_read', false)->count();
+                        @endphp
+                        <span id="chat-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full items-center justify-center {{ $unreadCount > 0 ? 'flex' : 'hidden' }}">
+                            {{ $unreadCount }}
+                        </span>
+                    </a>
+                    <script>
+                        setInterval(() => {
+                            fetch('/chat-unread-count')
+                                .then(response => response.json())
+                                .then(data => {
+                                    const badge = document.getElementById('chat-badge');
+                                    if (data.count > 0) {
+                                        badge.textContent = data.count;
+                                        badge.classList.remove('hidden');
+                                        badge.classList.add('flex');
+                                    } else {
+                                        badge.classList.add('hidden');
+                                        badge.classList.remove('flex');
+                                    }
+                                });
+                        }, 10000);
+                    </script>
                     <!-- Notifications -->
                     <a href="{{ route('notifications.index') }}" class="relative p-2 text-gray-700 hover:text-purple-600 transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,12 +121,7 @@
                                     </svg>
                                     المبيعات
                                 </a>
-                                <a href="{{ route('favorites.index') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition {{ request()->is('favorites*') ? 'bg-purple-50 text-purple-600' : '' }}">
-                                    <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    المفضلة
-                                </a>
+
                                 <a href="{{ route('products.create') }}" class="flex items-center px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition {{ request()->is('products/create') ? 'bg-purple-50 text-purple-600' : '' }}">
                                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

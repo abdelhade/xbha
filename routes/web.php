@@ -84,6 +84,7 @@ Route::delete('/categories/{category:slug}', [CategoryController::class, 'destro
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ChatController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -93,15 +94,27 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     
-    // Favorites routes
-    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
-    Route::post('/favorites/{product}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+});
+
+// Public favorites routes
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+Route::post('/favorites/{product}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+Route::middleware('auth')->group(function () {
     
     // Notifications routes
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/mark-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    
+    // Chat routes
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/{user}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{user}', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/chat-unread-count', function() {
+        return response()->json(['count' => \App\Models\Message::where('receiver_id', auth()->id())->where('is_read', false)->count()]);
+    });
 });
 
 require __DIR__.'/auth.php';

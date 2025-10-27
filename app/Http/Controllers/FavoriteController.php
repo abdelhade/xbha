@@ -14,14 +14,30 @@ class FavoriteController extends Controller
 
     public function toggle(Product $product)
     {
-        $favorite = auth()->user()->favorites()->where('product_id', $product->id)->first();
+        if (auth()->check()) {
+            $favorite = auth()->user()->favorites()->where('product_id', $product->id)->first();
+            
+            if ($favorite) {
+                $favorite->delete();
+                return back()->with('success', 'تم إزالة المنتج من المفضلة');
+            }
+            
+            auth()->user()->favorites()->create(['product_id' => $product->id]);
+            return back()->with('success', 'تم إضافة المنتج للمفضلة');
+        }
         
-        if ($favorite) {
-            $favorite->delete();
+        // For guests, use session
+        $sessionId = session()->getId();
+        $favorites = session()->get('favorites', []);
+        
+        if (in_array($product->id, $favorites)) {
+            $favorites = array_diff($favorites, [$product->id]);
+            session()->put('favorites', $favorites);
             return back()->with('success', 'تم إزالة المنتج من المفضلة');
         }
         
-        auth()->user()->favorites()->create(['product_id' => $product->id]);
+        $favorites[] = $product->id;
+        session()->put('favorites', $favorites);
         return back()->with('success', 'تم إضافة المنتج للمفضلة');
     }
 

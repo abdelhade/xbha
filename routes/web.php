@@ -109,12 +109,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/mark-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
     
     // Chat routes
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/{user}', [ChatController::class, 'show'])->name('chat.show');
-    Route::post('/chat/{user}', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/chat', function() {
+        return view('chat.index');
+    })->name('chat.index');
+    Route::get('/chat/{user}', function($user) {
+        return view('chat.show', ['userId' => $user]);
+    })->name('chat.show');
     Route::get('/chat-unread-count', function() {
         return response()->json(['count' => \App\Models\Message::where('receiver_id', auth()->id())->where('is_read', false)->count()]);
     });
 });
 
 require __DIR__.'/auth.php';
+

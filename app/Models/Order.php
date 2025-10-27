@@ -13,6 +13,9 @@ class Order extends Model
     protected $fillable = [
         'tenant_id',
         'product_id',
+        'product_title',
+        'product_price',
+        'product_condition',
         'buyer_id',
         'seller_id',
         'order_number',
@@ -30,6 +33,7 @@ class Order extends Model
 
     protected $casts = [
         'total_amount' => 'decimal:2',
+        'product_price' => 'decimal:2',
         'completed_at' => 'datetime',
         'cancelled_at' => 'datetime',
     ];

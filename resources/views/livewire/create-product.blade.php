@@ -98,6 +98,7 @@
                 <input wire:model="price" 
                        type="number" 
                        step="0.01"
+                       max="999999999"
                        placeholder="0.00"
                        class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
                 @error('price') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror

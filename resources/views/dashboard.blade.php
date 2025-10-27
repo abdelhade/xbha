@@ -140,9 +140,13 @@
                                         <a href="{{ route('products.edit', $product->slug) }}" class="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition text-center">
                                             تعديل
                                         </a>
-                                        <button class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition">
-                                            حذف
-                                        </button>
+                                        <form action="{{ route('products.destroy', $product->slug) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من حذف هذا الإعلان؟')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-sm hover:bg-red-200 transition">
+                                                حذف
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

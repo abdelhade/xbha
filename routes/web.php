@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 Route::get('/', function () {
-    $products = Product::with(['category', 'user'])
-        ->where('status', true)
-        ->latest()
-        ->take(10)
-        ->get();
-    return view('welcome', compact('products'));
+    $categories = \App\Models\Category::with(['products' => function($q) {
+        $q->where('status', true)->with('user')->latest()->take(5);
+    }])->get();
+    return view('welcome', compact('categories'));
 });
 
 Route::get('/products', function () {
@@ -119,6 +117,19 @@ Route::middleware('auth')->group(function () {
         return response()->json(['count' => \App\Models\Message::where('receiver_id', auth()->id())->where('is_read', false)->count()]);
     });
 });
+
+// Static pages
+Route::get('/terms', function() {
+    return view('pages.terms');
+})->name('terms');
+
+Route::get('/privacy', function() {
+    return view('pages.privacy');
+})->name('privacy');
+
+Route::get('/about', function() {
+    return view('pages.about');
+})->name('about');
 
 require __DIR__.'/auth.php';
 

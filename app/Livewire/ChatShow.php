@@ -12,6 +12,9 @@ class ChatShow extends Component
     public $userId;
     public $user;
     public $message = '';
+    public $editingMessageId = null;
+    public $editingMessageText = '';
+    public $deletingMessageId = null;
 
     public function mount($id)
     {
@@ -38,6 +41,66 @@ class ChatShow extends Component
         $this->dispatch('messageSent');
     }
 
+    public function showDeleteOptions($messageId)
+    {
+        $this->deletingMessageId = $messageId;
+    }
+
+    public function cancelDelete()
+    {
+        $this->deletingMessageId = null;
+    }
+
+    public function deleteForMe($messageId)
+    {
+        $message = Message::where('id', $messageId)
+            ->where('sender_id', auth()->id())
+            ->first();
+        
+        if ($message) {
+            $deletedFor = $message->deleted_for ?? [];
+            $deletedFor[] = auth()->id();
+            $message->update(['deleted_for' => $deletedFor]);
+        }
+        $this->deletingMessageId = null;
+    }
+
+    public function deleteForEveryone($messageId)
+    {
+        $message = Message::where('id', $messageId)
+            ->where('sender_id', auth()->id())
+            ->first();
+        
+        if ($message) {
+            $message->update(['message' => 'تم حذف هذه الرسالة']);
+        }
+        $this->deletingMessageId = null;
+    }
+
+    public function startEdit($messageId, $messageText)
+    {
+        $this->editingMessageId = $messageId;
+        $this->editingMessageText = $messageText;
+    }
+
+    public function cancelEdit()
+    {
+        $this->editingMessageId = null;
+        $this->editingMessageText = '';
+    }
+
+    public function saveEdit()
+    {
+        $message = Message::where('id', $this->editingMessageId)
+            ->where('sender_id', auth()->id())
+            ->first();
+        
+        if ($message && $this->editingMessageText) {
+            $message->update(['message' => $this->editingMessageText]);
+            $this->cancelEdit();
+        }
+    }
+
     public function render()
     {
         $messages = Message::where(function($q) {
@@ -48,7 +111,11 @@ class ChatShow extends Component
             })
             ->with(['sender', 'receiver'])
             ->orderBy('created_at', 'asc')
-            ->get();
+            ->get()
+            ->filter(function($message) {
+                $deletedFor = $message->deleted_for ?? [];
+                return !in_array(auth()->id(), $deletedFor);
+            });
 
         Message::where('sender_id', $this->userId)
             ->where('receiver_id', auth()->id())

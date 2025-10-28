@@ -26,11 +26,11 @@ class EditProduct extends Component
     protected $rules = [
         'title' => 'required|string|max:255',
         'category_id' => 'required|exists:categories,id',
-        'price' => 'required|numeric|min:0',
+        'price' => 'required|numeric|min:0|max:999999999',
         'condition' => 'required|in:new,like_new,good,fair,poor',
         'location' => 'required|string|max:255',
         'description' => 'required|string|min:10',
-        'newImages.*' => 'image|max:2048',
+        'newImages.*' => 'nullable|image|max:2048',
     ];
 
     protected $messages = [
@@ -100,19 +100,17 @@ class EditProduct extends Component
             }
         }
 
-        // ✅ رفع الصور الجديدة بالطريقة الصحيحة
-        if ($this->newImages && count($this->newImages) > 0) {
+        // ✅ رفع الصور الجديدة
+        if (!empty($this->newImages)) {
             foreach ($this->newImages as $image) {
-                // نخزن الصورة أولًا في مجلد مؤقت داخل storage
-                $path = $image->store('products', 'public');
-
-                // بعد كده نضيفها لمكتبة Spatie
-                $this->product->addMedia(storage_path('app/public/' . $path))
-                    ->usingName($image->getClientOriginalName())
-                    ->toMediaCollection('images');
+                if ($image) {
+                    $this->product->addMedia($image->getRealPath())
+                        ->usingName($image->getClientOriginalName())
+                        ->toMediaCollection('images');
+                }
             }
         }
-
+        
         session()->flash('message', 'تم تحديث الإعلان بنجاح');
         return redirect()->route('dashboard');
     }

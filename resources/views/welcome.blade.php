@@ -93,44 +93,46 @@
         </div>
     </section>
 
-    <!-- Products -->
+    <!-- Products by Category -->
     <section class="py-20 px-6 bg-gray-50">
         <div class="container mx-auto max-w-7xl">
-            <div class="flex items-center justify-between mb-12">
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-2">أحدث الإعلانات</h2>
-                    <p class="text-gray-600">تصفح أحدث المنتجات المعروضة</p>
-                </div>
-                <a href="/products" class="text-purple-600 font-semibold hover:text-purple-700">عرض الكل →</a>
-            </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                @forelse($products as $product)
-                <a href="{{ route('products.show', $product->slug) }}" class="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition card-hover">
-                    @if($product->getFirstMediaUrl('images'))
-                        <img src="{{ $product->getFirstMediaUrl('images') }}" alt="{{ $product->title }}" class="w-full h-48 object-cover">
-                    @else
-                        <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                            <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
+            @foreach($categories as $category)
+                @if($category->products->count() > 0)
+                    <div class="mb-16">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ $category->name }}</h2>
+                                <p class="text-gray-600">تصفح أحدث المنتجات في {{ $category->name }}</p>
+                            </div>
+                            <a href="/products?category={{ $category->id }}" class="text-purple-600 font-semibold hover:text-purple-700">عرض الكل →</a>
                         </div>
-                    @endif
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-900 mb-2 truncate">{{ $product->title }}</h3>
-                        <p class="text-xl font-bold text-purple-600 mb-2">{{ number_format($product->price, 2) }} ريال</p>
-                        <div class="flex items-center justify-between text-xs text-gray-500">
-                            <span>{{ $product->category->name }}</span>
-                            <span>{{ $product->location }}</span>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                            @foreach($category->products as $product)
+                            <a href="{{ route('products.show', $product->slug) }}" class="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition card-hover">
+                                @if($product->getFirstMediaUrl('images'))
+                                    <img src="{{ $product->getFirstMediaUrl('images') }}" alt="{{ $product->title }}" class="w-full h-48 object-cover">
+                                @else
+                                    <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <div class="p-4">
+                                    <h3 class="font-bold text-gray-900 mb-2 truncate">{{ $product->title }}</h3>
+                                    <p class="text-xl font-bold text-purple-600 mb-2">{{ number_format($product->price) }} ريال</p>
+                                    <div class="flex items-center justify-between text-xs text-gray-500">
+                                        <span>{{ $product->user->name }}</span>
+                                        <span>{{ $product->location }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                            @endforeach
                         </div>
                     </div>
-                </a>
-                @empty
-                <div class="col-span-5 text-center py-12">
-                    <p class="text-gray-500">لا توجد منتجات حالياً</p>
-                </div>
-                @endforelse
-            </div>
+                @endif
+            @endforeach
         </div>
     </section>
 
@@ -252,8 +254,9 @@
             <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
                 <p>&copy; {{ date('Y') }} إكسابها. جميع الحقوق محفوظة.</p>
                 <div class="flex gap-6 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-white">الشروط</a>
-                    <a href="#" class="hover:text-white">الخصوصية</a>
+                    <a href="{{ route('terms') }}" class="hover:text-white">الشروط والأحكام</a>
+                    <a href="{{ route('privacy') }}" class="hover:text-white">سياسة الخصوصية</a>
+                    <a href="{{ route('about') }}" class="hover:text-white">من نحن</a>
                 </div>
             </div>
         </div>

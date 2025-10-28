@@ -149,12 +149,12 @@
 
                 <!-- Terms Agreement -->
                 <div class="flex items-start">
-                    <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                    <input type="checkbox" id="terms" name="terms" required class="mt-1 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
                     <label for="terms" class="mr-3 text-sm text-gray-600">
                         أوافق على 
-                        <a href="#" class="text-purple-600 hover:text-purple-700 font-medium">الشروط والأحكام</a>
+                        <a href="{{ route('terms') }}" target="_blank" class="text-purple-600 hover:text-purple-700 font-medium">الشروط والأحكام</a>
                         و
-                        <a href="#" class="text-purple-600 hover:text-purple-700 font-medium">سياسة الخصوصية</a>
+                        <a href="{{ route('privacy') }}" target="_blank" class="text-purple-600 hover:text-purple-700 font-medium">سياسة الخصوصية</a>
                     </label>
                 </div>
 

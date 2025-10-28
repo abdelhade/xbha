@@ -254,8 +254,9 @@
             <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
                 <p>&copy; {{ date('Y') }} إكسابها. جميع الحقوق محفوظة.</p>
                 <div class="flex gap-6 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-white">الشروط</a>
-                    <a href="#" class="hover:text-white">الخصوصية</a>
+                    <a href="{{ route('terms') }}" class="hover:text-white">الشروط والأحكام</a>
+                    <a href="{{ route('privacy') }}" class="hover:text-white">سياسة الخصوصية</a>
+                    <a href="{{ route('about') }}" class="hover:text-white">من نحن</a>
                 </div>
             </div>
         </div>

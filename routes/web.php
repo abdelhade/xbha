@@ -118,5 +118,18 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+// Static pages
+Route::get('/terms', function() {
+    return view('pages.terms');
+})->name('terms');
+
+Route::get('/privacy', function() {
+    return view('pages.privacy');
+})->name('privacy');
+
+Route::get('/about', function() {
+    return view('pages.about');
+})->name('about');
+
 require __DIR__.'/auth.php';
 

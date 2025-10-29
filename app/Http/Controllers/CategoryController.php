@@ -45,6 +45,7 @@ class CategoryController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
+        $validated['tenant_id'] = session('tenant_id', 1);
 
         // Ensure slug is unique within tenant
         $originalSlug = $validated['slug'];

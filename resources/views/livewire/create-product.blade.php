@@ -84,12 +84,19 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">التصنيف *</label>
-                <select wire:model="category_id" class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                    <option value="">اختر التصنيف</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
+                <div class="flex gap-2">
+                    <select wire:model="category_id" class="flex-1 px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                        <option value="">اختر التصنيف</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <a href="{{ route('categories.create') }}" target="_blank" class="px-4 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition flex items-center justify-center" title="إضافة تصنيف جديد">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </a>
+                </div>
                 @error('category_id') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
 

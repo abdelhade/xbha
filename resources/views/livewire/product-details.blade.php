@@ -58,6 +58,24 @@
             <!-- Title & Price -->
             <div class="mb-6">
                 <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $product->title }}</h1>
+                @if($product->is_auction)
+                    <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6 border-2 border-orange-200 mb-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-lg font-bold text-orange-900">مزايدة نشطة</span>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 mb-1">المزايدة الحالية</p>
+                            <span class="text-4xl font-bold text-orange-600">{{ number_format($product->current_bid) }} ر.س</span>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            <p>تنتهي في: {{ $product->auction_ends_at->format('Y-m-d H:i') }}</p>
+                            <p>عدد المزايدات: {{ $product->bids->count() }}</p>
+                        </div>
+                    </div>
+                @else
                 <div class="flex items-center gap-4 mb-4">
                     <span class="text-4xl font-bold text-purple-600">{{ number_format($product->price) }} ر.س</span>
                     <span
@@ -90,6 +108,7 @@
                         @endswitch
                     </span>
                 </div>
+                @endif
             </div>
 
             <!-- Product Details -->
@@ -158,23 +177,49 @@
 
             <!-- Action Buttons -->
             <div class="space-y-3">
-                @auth
-                    @if (auth()->id() !== $product->user_id)
-                        <a href="{{ route('chat.show', encrypt($product->user_id)) }}"
-                            class="block w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg text-center">
-                            راسل البائع
+                @if($product->is_auction && $product->auction_ends_at > now())
+                    @auth
+                        @if(auth()->id() !== $product->user_id)
+                            <div class="bg-white rounded-xl p-4 border-2 border-orange-200">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">مبلغ مزايدتك</label>
+                                <div class="flex gap-2">
+                                    <input type="number" wire:model="bidAmount" placeholder="{{ number_format($product->current_bid + ($product->min_bid_increment ?? 1)) }}"
+                                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600">
+                                    <button wire:click="placeBid" class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-semibold">
+                                        زايد
+                                    </button>
+                                </div>
+                                @error('bidAmount') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @if(session()->has('message'))
+                                    <p class="mt-2 text-sm text-green-600">{{ session('message') }}</p>
+                                @endif
+                            </div>
+                        @endif
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="block w-full py-4 bg-orange-600 text-white rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-lg text-center">
+                            سجل دخول للمزايدة
                         </a>
-                        <a href="{{ route('orders.create', $product) }}"
-                            class="block w-full py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all text-center">
-                            طلب الشراء الآن
-                        </a>
-                    @endif
+                    @endauth
                 @else
-                    <a href="{{ route('login') }}"
-                        class="block w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg text-center">
-                        سجل دخول للشراء
-                    </a>
-                @endauth
+                    @auth
+                        @if (auth()->id() !== $product->user_id)
+                            <a href="{{ route('chat.show', encrypt($product->user_id)) }}"
+                                class="block w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg text-center">
+                                راسل البائع
+                            </a>
+                            <a href="{{ route('orders.create', $product) }}"
+                                class="block w-full py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all text-center">
+                                طلب الشراء الآن
+                            </a>
+                        @endif
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="block w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg text-center">
+                            سجل دخول للشراء
+                        </a>
+                    @endauth
+                @endif
 
                 <button wire:click="toggleContactInfo"
                     class="w-full py-4 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-all">

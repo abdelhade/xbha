@@ -20,16 +20,23 @@ class CreateProduct extends Component
     public $description = '';
     public $images = [];
     public $status = true;
+    public $is_auction = false;
+    public $starting_price = '';
+    public $auction_days = 7;
+    public $min_bid_increment = 10;
 
     public function rules()
     {
         return [
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0|max:999999999',
+            'price' => $this->is_auction ? 'nullable' : 'required|numeric|min:0|max:999999999',
             'condition' => 'required|in:new,like_new,good,fair,poor',
             'location' => 'required|string|max:255',
             'description' => 'required|string|min:10',
+            'starting_price' => $this->is_auction ? 'required|numeric|min:0|max:999999999' : 'nullable',
+            'auction_days' => $this->is_auction ? 'required|integer|min:1|max:30' : 'nullable',
+            'min_bid_increment' => $this->is_auction ? 'required|numeric|min:1|max:10000' : 'nullable',
         ];
     }
 
@@ -57,18 +64,30 @@ class CreateProduct extends Component
         $this->status = !$isDraft;
         $this->validate();
 
-        $product = Product::create([
+        $productData = [
             'user_id' => auth()->id(),
             'tenant_id' => session('tenant_id', 1),
             'title' => $this->title,
             'slug' => Str::slug($this->title) . '-' . time(),
             'category_id' => $this->category_id,
-            'price' => $this->price,
             'condition' => $this->condition,
             'location' => $this->location,
             'description' => $this->description,
             'status' => $this->status,
-        ]);
+            'is_auction' => $this->is_auction,
+        ];
+
+        if ($this->is_auction) {
+            $productData['starting_price'] = $this->starting_price;
+            $productData['current_bid'] = $this->starting_price;
+            $productData['auction_ends_at'] = now()->addDays((int)$this->auction_days);
+            $productData['price'] = $this->starting_price;
+            $productData['min_bid_increment'] = $this->min_bid_increment;
+        } else {
+            $productData['price'] = $this->price;
+        }
+
+        $product = Product::create($productData);
 
         // Upload images
         if ($this->images && count($this->images) > 0) {

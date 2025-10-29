@@ -100,16 +100,56 @@
                 @error('category_id') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">السعر (ريال) *</label>
-                <input wire:model="price" 
-                       type="number" 
-                       step="0.01"
-                       max="999999999"
-                       placeholder="0.00"
-                       class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                @error('price') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+            <div class="md:col-span-2">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" wire:model.live="is_auction" class="w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
+                    <span class="text-sm font-medium text-gray-700">هل تريد جعل هذا المنتج في مزايدة؟</span>
+                </label>
             </div>
+
+            @if(!$is_auction)
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">السعر (ريال) *</label>
+                    <input wire:model="price" 
+                           type="number" 
+                           step="0.01"
+                           max="999999999"
+                           placeholder="0.00"
+                           class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                    @error('price') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+            @else
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">سعر البداية (ريال) *</label>
+                    <input wire:model="starting_price" 
+                           type="number" 
+                           step="0.01"
+                           max="999999999"
+                           placeholder="0.00"
+                           class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                    @error('starting_price') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">مدة المزايدة (أيام) *</label>
+                    <select wire:model="auction_days" class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                        <option value="1">1 يوم</option>
+                        <option value="3">3 أيام</option>
+                        <option value="7" selected>7 أيام</option>
+                        <option value="14">14 يوم</option>
+                        <option value="30">30 يوم</option>
+                    </select>
+                    @error('auction_days') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">الحد الأدنى للزيادة (ريال) *</label>
+                    <input wire:model="min_bid_increment" 
+                           type="number" 
+                           step="1"
+                           placeholder="10"
+                           class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                    @error('min_bid_increment') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+            @endif
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">حالة المنتج *</label>

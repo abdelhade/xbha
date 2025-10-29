@@ -27,6 +27,11 @@ class Product extends Model implements HasMedia
         'location',
         'is_featured',
         'featured_until',
+        'is_auction',
+        'starting_price',
+        'current_bid',
+        'auction_ends_at',
+        'min_bid_increment',
     ];
 
     protected $casts = [
@@ -35,6 +40,11 @@ class Product extends Model implements HasMedia
         'featured_until' => 'datetime',
         'status' => 'boolean',
         'views_count' => 'integer',
+        'is_auction' => 'boolean',
+        'starting_price' => 'decimal:2',
+        'current_bid' => 'decimal:2',
+        'auction_ends_at' => 'datetime',
+        'min_bid_increment' => 'decimal:2',
     ];
 
     /**
@@ -116,6 +126,16 @@ class Product extends Model implements HasMedia
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }
 

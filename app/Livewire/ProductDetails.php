@@ -45,6 +45,38 @@ class ProductDetails extends Component
         $this->showContactInfo = !$this->showContactInfo;
     }
 
+    public $bidAmount = '';
+
+    public function placeBid()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        $minBid = $this->product->current_bid + ($this->product->min_bid_increment ?? 1);
+        
+        $this->validate([
+            'bidAmount' => 'required|numeric|min:' . $minBid,
+        ], [
+            'bidAmount.required' => 'يجب إدخال مبلغ المزايدة',
+            'bidAmount.numeric' => 'المبلغ يجب أن يكون رقماً',
+            'bidAmount.min' => 'المبلغ يجب أن يكون ' . number_format($minBid) . ' ريال على الأقل',
+        ]);
+
+        \App\Models\Bid::create([
+            'tenant_id' => session('tenant_id', 1),
+            'product_id' => $this->product->id,
+            'user_id' => auth()->id(),
+            'amount' => $this->bidAmount,
+        ]);
+
+        $this->product->update(['current_bid' => $this->bidAmount]);
+        $this->product->refresh();
+        $this->bidAmount = '';
+
+        session()->flash('message', 'تم تقديم مزايدتك بنجاح!');
+    }
+
     public function render()
     {
         $relatedProducts = Product::where('category_id', $this->product->category_id)

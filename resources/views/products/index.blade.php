@@ -76,5 +76,33 @@
     </footer>
 
     @livewireScripts
+
+    <script>
+        function countdown(endTimestamp) {
+            return {
+                end: typeof endTimestamp === 'number' ? new Date(endTimestamp) : null,
+                timeString: '--:--:--',
+                timer: null,
+                start() {
+                    if (!this.end) { this.timeString = '—'; return; }
+                    this.update();
+                    this.timer = setInterval(() => this.update(), 1000);
+                },
+                update() {
+                    const now = new Date();
+                    const diff = this.end - now;
+                    if (diff <= 0) {
+                        this.timeString = 'انتهى';
+                        clearInterval(this.timer);
+                        return;
+                    }
+                    const h = Math.floor(diff / 3600000);
+                    const m = Math.floor((diff % 3600000) / 60000);
+                    const s = Math.floor((diff % 60000) / 1000);
+                    this.timeString = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                }
+            };
+        }
+    </script>
 </body>
 </html>

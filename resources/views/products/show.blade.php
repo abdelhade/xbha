@@ -64,5 +64,18 @@
     </div>
 
     @livewireScripts
+
+    <script>
+        // If the URL contains #placeBid, scroll to bid input and focus
+        document.addEventListener('DOMContentLoaded', function() {
+            if (location.hash === '#placeBid') {
+                const el = document.getElementById('bid-input');
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => el.focus(), 600);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

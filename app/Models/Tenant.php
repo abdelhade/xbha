@@ -84,9 +84,8 @@ class Tenant extends Model
      */
     public function getUrlAttribute(): string
     {
-        return $this->domain 
-            ? "https://{$this->domain}" 
+        return $this->domain
+            ? "https://{$this->domain}"
             : route('tenant.show', $this->slug);
     }
 }
-

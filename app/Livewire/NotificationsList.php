@@ -13,7 +13,7 @@ class NotificationsList extends Component
     {
         $notification = auth()->user()->notifications()->findOrFail($notificationId);
         $notification->markAsRead();
-        
+
         if (isset($notification->data['order_id'])) {
             return redirect()->route('orders.show', $notification->data['order_id']);
         }
@@ -28,7 +28,7 @@ class NotificationsList extends Component
     public function render()
     {
         $notifications = auth()->user()->notifications()->paginate(20);
-        
+
         return view('livewire.notifications-list', compact('notifications'));
     }
 }

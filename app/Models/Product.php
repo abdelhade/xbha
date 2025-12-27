@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes, TenantScoped, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, SoftDeletes, TenantScoped;
 
     protected $fillable = [
         'tenant_id',
@@ -51,9 +51,13 @@ class Product extends Model implements HasMedia
      * Product conditions
      */
     public const CONDITION_NEW = 'new';
+
     public const CONDITION_LIKE_NEW = 'like_new';
+
     public const CONDITION_GOOD = 'good';
+
     public const CONDITION_FAIR = 'fair';
+
     public const CONDITION_POOR = 'poor';
 
     /**
@@ -138,4 +142,3 @@ class Product extends Model implements HasMedia
         return $this->hasMany(Favorite::class);
     }
 }
-

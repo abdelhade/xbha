@@ -26,8 +26,8 @@ class ProductController extends Controller
         // Search
         if ($request->has('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('description', 'like', '%' . $request->search . '%');
+                $q->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('description', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -56,6 +56,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::active()->get();
+
         return view('products.create', compact('categories'));
     }
 
@@ -81,7 +82,7 @@ class ProductController extends Controller
         $originalSlug = $validated['slug'];
         $count = 1;
         while (Product::where('slug', $validated['slug'])->exists()) {
-            $validated['slug'] = $originalSlug . '-' . $count;
+            $validated['slug'] = $originalSlug.'-'.$count;
             $count++;
         }
 
@@ -111,6 +112,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        // Hide unapproved products from public unless viewer is admin or owner
+        if (! $product->status && ! (auth()->check() && (auth()->user()->hasRole('admin') || auth()->id() === $product->user_id))) {
+            abort(404);
+        }
+
         $product->load(['category', 'user', 'media']);
         $product->incrementViews();
 
@@ -130,6 +136,7 @@ class ProductController extends Controller
     {
         $this->authorize('update', $product);
         $categories = Category::active()->get();
+
         return view('products.edit', compact('product', 'categories'));
     }
 
@@ -179,4 +186,3 @@ class ProductController extends Controller
             ->with('success', 'تم حذف المنتج بنجاح!');
     }
 }
-

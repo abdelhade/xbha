@@ -28,6 +28,7 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::root()->active()->get();
+
         return view('categories.create', compact('categories'));
     }
 
@@ -51,7 +52,7 @@ class CategoryController extends Controller
         $originalSlug = $validated['slug'];
         $count = 1;
         while (Category::where('slug', $validated['slug'])->exists()) {
-            $validated['slug'] = $originalSlug . '-' . $count;
+            $validated['slug'] = $originalSlug.'-'.$count;
             $count++;
         }
 
@@ -135,4 +136,3 @@ class CategoryController extends Controller
             ->with('success', 'تم حذف التصنيف بنجاح!');
     }
 }
-

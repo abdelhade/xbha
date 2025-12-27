@@ -13,16 +13,27 @@ class CreateProduct extends Component
     use WithFileUploads;
 
     public $title = '';
+
     public $category_id = '';
+
     public $price = '';
+
     public $condition = '';
+
     public $location = '';
+
     public $description = '';
+
     public $images = [];
+
     public $status = true;
+
     public $is_auction = false;
+
     public $starting_price = '';
+
     public $auction_days = 7;
+
     public $min_bid_increment = 10;
 
     public function rules()
@@ -61,26 +72,27 @@ class CreateProduct extends Component
 
     public function save($isDraft = false)
     {
-        $this->status = !$isDraft;
+        // All user-created products require admin approval by default
+        $this->status = false;
         $this->validate();
 
         $productData = [
             'user_id' => auth()->id(),
             'tenant_id' => session('tenant_id', 1),
             'title' => $this->title,
-            'slug' => Str::slug($this->title) . '-' . time(),
+            'slug' => Str::slug($this->title).'-'.time(),
             'category_id' => $this->category_id,
             'condition' => $this->condition,
             'location' => $this->location,
             'description' => $this->description,
-            'status' => $this->status,
+            'status' => $this->status, // false until admin approves
             'is_auction' => $this->is_auction,
         ];
 
         if ($this->is_auction) {
             $productData['starting_price'] = $this->starting_price;
             $productData['current_bid'] = $this->starting_price;
-            $productData['auction_ends_at'] = now()->addDays((int)$this->auction_days);
+            $productData['auction_ends_at'] = now()->addDays((int) $this->auction_days);
             $productData['price'] = $this->starting_price;
             $productData['min_bid_increment'] = $this->min_bid_increment;
         } else {
@@ -100,9 +112,8 @@ class CreateProduct extends Component
             }
         }
 
+        session()->flash('message', $isDraft ? 'تم حفظ الإعلان كمسودة' : 'تم إضافة الإعلان بنجاح، سينتظر موافقة الأدمن');
 
-        session()->flash('message', $isDraft ? 'تم حفظ الإعلان كمسودة' : 'تم نشر الإعلان بنجاح');
-        
         return redirect()->route('dashboard');
     }
 
@@ -114,7 +125,7 @@ class CreateProduct extends Component
     public function render()
     {
         return view('livewire.create-product', [
-            'categories' => Category::active()->get()
+            'categories' => Category::active()->get(),
         ]);
     }
 }

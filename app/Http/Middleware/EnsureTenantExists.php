@@ -21,4 +21,3 @@ class EnsureTenantExists
         return $next($request);
     }
 }
-

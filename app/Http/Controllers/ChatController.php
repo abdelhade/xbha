@@ -5,23 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
     public function index()
     {
         $userId = auth()->id();
-        
+
         $conversations = Message::where('sender_id', $userId)
             ->orWhere('receiver_id', $userId)
             ->with(['sender', 'receiver', 'product'])
             ->latest()
             ->get()
-            ->groupBy(function($message) use ($userId) {
+            ->groupBy(function ($message) use ($userId) {
                 return $message->sender_id == $userId ? $message->receiver_id : $message->sender_id;
             })
-            ->map(function($messages) {
+            ->map(function ($messages) {
                 return $messages->first();
             });
 
@@ -36,11 +35,11 @@ class ChatController extends Controller
             $userId = $id;
         }
         $user = User::findOrFail($userId);
-        
-        $messages = Message::where(function($q) use ($user) {
-                $q->where('sender_id', auth()->id())->where('receiver_id', $user->id);
-            })
-            ->orWhere(function($q) use ($user) {
+
+        $messages = Message::where(function ($q) use ($user) {
+            $q->where('sender_id', auth()->id())->where('receiver_id', $user->id);
+        })
+            ->orWhere(function ($q) use ($user) {
                 $q->where('sender_id', $user->id)->where('receiver_id', auth()->id());
             })
             ->with(['sender', 'receiver', 'product'])
@@ -57,7 +56,7 @@ class ChatController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate(['message' => 'required|string']);
-        
+
         try {
             $userId = decrypt($id);
         } catch (\Exception $e) {

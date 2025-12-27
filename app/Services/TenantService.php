@@ -13,7 +13,7 @@ class TenantService
     public function createTenant(array $data): Tenant
     {
         // Generate unique slug
-        if (!isset($data['slug'])) {
+        if (! isset($data['slug'])) {
             $data['slug'] = $this->generateUniqueSlug($data['name']);
         }
 
@@ -51,7 +51,7 @@ class TenantService
         $count = 1;
 
         while (Tenant::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $count;
+            $slug = $originalSlug.'-'.$count;
             $count++;
         }
 
@@ -118,4 +118,3 @@ class TenantService
         return $tenant->delete();
     }
 }
-

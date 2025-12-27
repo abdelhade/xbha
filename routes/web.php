@@ -65,9 +65,8 @@ Route::middleware('auth')->group(function () {
 });
 
 // Product show route (public)
-Route::get('/products/{product:slug}', function (Product $product) {
-    return view('products.show', compact('product'));
-})->name('products.show');
+use App\Http\Controllers\ProductController as PublicProductController;
+Route::get('/products/{product:slug}', [PublicProductController::class, 'show'])->name('products.show');
 
 // Categories routes
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -130,6 +129,29 @@ Route::get('/privacy', function() {
 Route::get('/about', function() {
     return view('pages.about');
 })->name('about');
+
+// Admin routes
+// Admin routes
+Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\EnsureUserIsAdmin::class])->name('admin.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    // Users
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+
+    // Settings
+    Route::get('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
+    Route::post('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('settings.update');
+
+    // Products
+    Route::post('/products/{product}/approve', [\App\Http\Controllers\Admin\ProductApprovalController::class, 'approve'])->name('products.approve');
+    Route::get('/products/approvals', [\App\Http\Controllers\Admin\ProductApprovalController::class, 'index'])->name('products.approvals');
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['create', 'store']);
+
+    // Orders
+    Route::get('/orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [\App\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/status', [\App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+});
 
 require __DIR__.'/auth.php';
 

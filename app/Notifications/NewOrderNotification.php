@@ -10,9 +10,7 @@ class NewOrderNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public Order $order)
-    {
-    }
+    public function __construct(public Order $order) {}
 
     public function via($notifiable): array
     {
@@ -27,7 +25,7 @@ class NewOrderNotification extends Notification
             'product_title' => $this->order->product->title,
             'buyer_name' => $this->order->buyer_name,
             'total_amount' => $this->order->total_amount,
-            'message' => 'لديك طلب شراء جديد على منتج: ' . $this->order->product->title,
+            'message' => 'لديك طلب شراء جديد على منتج: '.$this->order->product->title,
         ];
     }
 }

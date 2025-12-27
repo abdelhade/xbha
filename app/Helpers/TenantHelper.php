@@ -68,7 +68,7 @@ class TenantHelper
     public static function run(Tenant $tenant, callable $callback)
     {
         $previousTenant = self::current();
-        
+
         try {
             Tenant::setCurrent($tenant);
             return $callback($tenant);

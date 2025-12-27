@@ -31,4 +31,3 @@ class InitializeTenant
         return $next($request);
     }
 }
-

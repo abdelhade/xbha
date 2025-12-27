@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class NotificationController extends Controller
 {
     public function index()
@@ -15,17 +13,18 @@ class NotificationController extends Controller
     {
         $notification = auth()->user()->notifications()->findOrFail($id);
         $notification->markAsRead();
-        
+
         if (isset($notification->data['order_id'])) {
             return redirect()->route('orders.show', $notification->data['order_id']);
         }
-        
+
         return back();
     }
 
     public function markAllAsRead()
     {
         auth()->user()->unreadNotifications->markAsRead();
+
         return back()->with('success', 'تم تحديد جميع الإشعارات كمقروءة');
     }
 }

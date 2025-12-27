@@ -39,4 +39,3 @@ class ProductPolicy
         return $user->id === $product->user_id;
     }
 }
-

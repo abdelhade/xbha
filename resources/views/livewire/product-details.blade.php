@@ -58,56 +58,90 @@
             <!-- Title & Price -->
             <div class="mb-6">
                 <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $product->title }}</h1>
-                @if($product->is_auction)
-                    <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6 border-2 border-orange-200 mb-4">
+                @if ($product->is_auction)
+                    <div
+                        class="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6 border-2 border-orange-200 mb-4">
                         <div class="flex items-center gap-2 mb-3">
-                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <span class="text-lg font-bold text-orange-900">مزايدة نشطة</span>
                         </div>
                         <div class="mb-3">
                             <p class="text-sm text-gray-600 mb-1">المزايدة الحالية</p>
-                            <span class="text-4xl font-bold text-orange-600">{{ number_format($product->current_bid) }} ر.س</span>
+                            <span class="text-4xl font-bold text-orange-600">{{ number_format($product->current_bid) }}
+                                ج.م</span>
                         </div>
                         <div class="text-sm text-gray-600">
                             <p>تنتهي في: {{ $product->auction_ends_at->format('Y-m-d H:i') }}</p>
                             <p>عدد المزايدات: {{ $product->bids->count() }}</p>
                         </div>
+
+                        @auth
+                            @if (auth()->id() === $product->user_id || auth()->user()->hasRole('admin'))
+                                <div class="mt-4 pt-4 border-t border-orange-200">
+                                    <h4 class="font-bold text-orange-900 mb-2">سجل المزايدات</h4>
+                                    <div class="space-y-2 max-h-60 overflow-y-auto">
+                                        @foreach ($product->bids()->with('user')->orderBy('amount', 'desc')->get() as $bid)
+                                            <div
+                                                class="bg-white p-3 rounded-lg flex justify-between items-center shadow-sm">
+                                                <div>
+                                                    <span class="font-bold text-gray-800">{{ $bid->user->name }}</span>
+                                                    <div class="text-orange-600 font-bold">
+                                                        {{ number_format($bid->amount) }} ج.م</div>
+                                                    <div class="text-xs text-gray-400">
+                                                        {{ $bid->created_at->diffForHumans() }}</div>
+                                                </div>
+                                                @if (auth()->id() === $product->user_id)
+                                                    <button wire:click="acceptBid({{ $bid->id }})"
+                                                        class="bg-orange-100 text-orange-700 hover:bg-orange-200 px-3 py-1 rounded text-sm font-bold transition"
+                                                        onclick="confirm('هل أنت متأكد من قبول هذه المزايدة وإنهاء المزاد؟') || event.stopImmediatePropagation()">
+                                                        قبول وإنهاء
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 @else
-                <div class="flex items-center gap-4 mb-4">
-                    <span class="text-4xl font-bold text-purple-600">{{ number_format($product->price) }} ر.س</span>
-                    <span
-                        class="px-3 py-1 text-sm font-medium rounded-full
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="text-4xl font-bold text-purple-600">{{ number_format($product->price) }}
+                            ج.م</span>
+                        <span
+                            class="px-3 py-1 text-sm font-medium rounded-full
                         @if ($product->condition === 'new') bg-green-100 text-green-800
                         @elseif($product->condition === 'like_new') bg-blue-100 text-blue-800
                         @elseif($product->condition === 'good') bg-yellow-100 text-yellow-800
                         @elseif($product->condition === 'fair') bg-orange-100 text-orange-800
                         @else bg-red-100 text-red-800 @endif">
-                        @switch($product->condition)
-                            @case('new')
-                                جديد
-                            @break
+                            @switch($product->condition)
+                                @case('new')
+                                    جديد
+                                @break
 
-                            @case('like_new')
-                                شبه جديد
-                            @break
+                                @case('like_new')
+                                    شبه جديد
+                                @break
 
-                            @case('good')
-                                جيد
-                            @break
+                                @case('good')
+                                    جيد
+                                @break
 
-                            @case('fair')
-                                مقبول
-                            @break
+                                @case('fair')
+                                    مقبول
+                                @break
 
-                            @case('poor')
-                                يحتاج إصلاح
-                            @break
-                        @endswitch
-                    </span>
-                </div>
+                                @case('poor')
+                                    يحتاج إصلاح
+                                @break
+                            @endswitch
+                        </span>
+                    </div>
                 @endif
             </div>
 
@@ -177,20 +211,24 @@
 
             <!-- Action Buttons -->
             <div class="space-y-3">
-                @if($product->is_auction && $product->auction_ends_at > now())
+                @if ($product->is_auction && $product->auction_ends_at > now())
                     @auth
-                        @if(auth()->id() !== $product->user_id)
+                        @if (auth()->id() !== $product->user_id)
                             <div class="bg-white rounded-xl p-4 border-2 border-orange-200">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">مبلغ مزايدتك</label>
                                 <div class="flex gap-2">
-                                    <input type="number" wire:model="bidAmount" placeholder="{{ number_format($product->current_bid + ($product->min_bid_increment ?? 1)) }}"
-                                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600">
-                                    <button wire:click="placeBid" class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-semibold">
+                                    <input id="bid-input" type="number" wire:model="bidAmount"
+                                        placeholder="{{ number_format($product->current_bid + ($product->min_bid_increment ?? 1)) }}"
+                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600">
+                                    <button wire:click="placeBid"
+                                        class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-semibold">
                                         زايد
                                     </button>
                                 </div>
-                                @error('bidAmount') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
-                                @if(session()->has('message'))
+                                @error('bidAmount')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                                @if (session()->has('message'))
                                     <p class="mt-2 text-sm text-green-600">{{ session('message') }}</p>
                                 @endif
                             </div>
@@ -284,7 +322,7 @@
                             <div class="absolute bottom-3 left-3">
                                 <span
                                     class="px-2 py-1 bg-white/90 backdrop-blur-sm text-purple-600 font-bold rounded-full text-sm">
-                                    {{ number_format($relatedProduct->price) }} ر.س
+                                    {{ number_format($relatedProduct->price) }} ج.م
                                 </span>
                             </div>
                         </div>

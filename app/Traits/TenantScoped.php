@@ -36,4 +36,3 @@ trait TenantScoped
         return $this->belongsTo(Tenant::class);
     }
 }
-

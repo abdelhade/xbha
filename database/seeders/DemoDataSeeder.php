@@ -18,9 +18,10 @@ class DemoDataSeeder extends Seeder
     {
         // Get first tenant
         $tenant = Tenant::first();
-        
-        if (!$tenant) {
+
+        if (! $tenant) {
             $this->command->error('No tenants found. Please run TenantSeeder first.');
+
             return;
         }
 
@@ -103,4 +104,3 @@ class DemoDataSeeder extends Seeder
         $this->command->info('Demo data created successfully!');
     }
 }
-

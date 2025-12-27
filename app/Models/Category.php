@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Category extends Model implements HasMedia
 {
-    use HasFactory, TenantScoped, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, TenantScoped;
 
     protected $fillable = [
         'tenant_id',
@@ -87,4 +87,3 @@ class Category extends Model implements HasMedia
         return 'slug';
     }
 }
-

@@ -14,6 +14,7 @@ class TenantController extends Controller
     public function index()
     {
         $tenants = Tenant::latest()->paginate(20);
+
         return view('tenants.index', compact('tenants'));
     }
 
@@ -38,12 +39,12 @@ class TenantController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
-        
+
         // Ensure slug is unique
         $originalSlug = $validated['slug'];
         $count = 1;
         while (Tenant::where('slug', $validated['slug'])->exists()) {
-            $validated['slug'] = $originalSlug . '-' . $count;
+            $validated['slug'] = $originalSlug.'-'.$count;
             $count++;
         }
 
@@ -81,9 +82,9 @@ class TenantController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:tenants,email,' . $tenant->id,
+            'email' => 'required|email|unique:tenants,email,'.$tenant->id,
             'phone' => 'nullable|string|max:20',
-            'domain' => 'nullable|string|unique:tenants,domain,' . $tenant->id . '|regex:/^[a-z0-9-]+$/',
+            'domain' => 'nullable|string|unique:tenants,domain,'.$tenant->id.'|regex:/^[a-z0-9-]+$/',
             'status' => 'boolean',
         ]);
 
@@ -106,4 +107,3 @@ class TenantController extends Controller
             ->with('success', 'تم حذف المتجر بنجاح!');
     }
 }
-

@@ -42,8 +42,11 @@ class Order extends Model
      * Order statuses
      */
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_CONFIRMED = 'confirmed';
+
     public const STATUS_COMPLETED = 'completed';
+
     public const STATUS_CANCELLED = 'cancelled';
 
     /**
@@ -55,7 +58,7 @@ class Order extends Model
 
         static::creating(function ($order) {
             if (! $order->order_number) {
-                $order->order_number = 'ORD-' . strtoupper(uniqid());
+                $order->order_number = 'ORD-'.strtoupper(uniqid());
             }
         });
     }
@@ -123,4 +126,3 @@ class Order extends Model
         ]);
     }
 }
-

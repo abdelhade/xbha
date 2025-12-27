@@ -20,7 +20,7 @@ class FavoritesList extends Component
             $favorites = array_diff($favorites, [$favoriteId]);
             session()->put('favorites', $favorites);
         }
-        
+
         session()->flash('message', 'تم إزالة المنتج من المفضلة');
     }
 
@@ -38,7 +38,7 @@ class FavoritesList extends Component
                 1
             );
         }
-        
+
         return view('livewire.favorites-list', compact('favorites'));
     }
 }

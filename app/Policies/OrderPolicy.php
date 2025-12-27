@@ -23,4 +23,3 @@ class OrderPolicy
         return $user->id === $order->seller_id;
     }
 }
-

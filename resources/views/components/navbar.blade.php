@@ -10,7 +10,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900">إكسابها</h1>
+                        <h1 class="text-xl font-bold text-gray-900">Mazadi</h1>
                         <p class="text-xs text-gray-500">{{ $subtitle ?? 'سوق الإعلانات المبوبة' }}</p>
                     </div>
                 </a>
@@ -47,6 +47,11 @@
                     @endif
                 </a>
                 @auth
+                    @if(auth()->user()->hasRole('admin'))
+                        <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-purple-600 transition {{ request()->is('admin*') ? 'text-purple-600 font-semibold' : '' }} mr-4">
+                            لوحة التحكم
+                        </a>
+                    @endif
                     <!-- Chat -->
                     <a href="{{ route('chat.index') }}" class="relative p-2 text-gray-700 hover:text-purple-600 transition" id="chat-icon">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,8 +182,11 @@
                 @auth
                     <a href="{{ route('products.create') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('products/create') ? 'text-purple-600 font-semibold' : '' }}">
                         إضافة إعلان
-                    </a>
-                    <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('myAds') ? 'text-purple-600 font-semibold' : '' }}">
+                    </a>                    @if(auth()->user()->hasRole('admin'))
+                        <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('admin*') ? 'text-purple-600 font-semibold' : '' }}">
+                            لوحة التحكم
+                        </a>
+                    @endif                    <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('myAds') ? 'text-purple-600 font-semibold' : '' }}">
                         إعلاناتي
                     </a>
                     <a href="{{ route('orders.index') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition {{ request()->is('orders') ? 'text-purple-600 font-semibold' : '' }}">

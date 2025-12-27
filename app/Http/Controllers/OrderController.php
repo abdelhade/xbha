@@ -72,8 +72,9 @@ class OrderController extends Controller
         if ($order->buyer_id !== auth()->id() && $order->seller_id !== auth()->id()) {
             abort(403);
         }
-        
+
         $order->load(['product', 'buyer', 'seller']);
+
         return view('orders.show', compact('order'));
     }
 
@@ -97,7 +98,7 @@ class OrderController extends Controller
         }
 
         $order->update(['status' => $validated['status']]);
-        
+
         if ($validated['status'] === 'completed') {
             $order->update(['completed_at' => now()]);
         }
@@ -107,4 +108,3 @@ class OrderController extends Controller
             ->with('success', 'تم تحديث حالة الطلب بنجاح!');
     }
 }
-

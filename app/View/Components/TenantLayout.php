@@ -25,4 +25,3 @@ class TenantLayout extends Component
         return view('components.tenant-layout');
     }
 }
-

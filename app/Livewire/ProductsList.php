@@ -12,10 +12,15 @@ class ProductsList extends Component
     use WithPagination;
 
     public $search = '';
+
     public $category_id = '';
+
     public $condition = '';
+
     public $min_price = '';
+
     public $max_price = '';
+
     public $sort = 'latest';
 
     protected $queryString = [
@@ -59,10 +64,10 @@ class ProductsList extends Component
 
         // Search
         if ($this->search) {
-            $query->where(function($q) {
-                $q->where('title', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%')
-                  ->orWhere('location', 'like', '%' . $this->search . '%');
+            $query->where(function ($q) {
+                $q->where('title', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                    ->orWhere('location', 'like', '%'.$this->search.'%');
             });
         }
 

@@ -72,7 +72,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'condition' => 'required|in:new,like_new,good,fair,poor',
             'location' => 'nullable|string|max:255',
-            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
         ]);
 
         $validated['user_id'] = auth()->id();
@@ -155,7 +155,7 @@ class ProductController extends Controller
             'condition' => 'required|in:new,like_new,good,fair,poor',
             'location' => 'nullable|string|max:255',
             'status' => 'boolean',
-            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
         ]);
 
         $product->update($validated);

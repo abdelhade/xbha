@@ -1,9 +1,10 @@
+@hasrole('admin')
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>تعديل التصنيف - إكسابها</title>
+    <title>تعديل التصنيف - Mazadi</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -212,3 +213,4 @@
     @livewireScripts
 </body>
 </html>
+@endhasrole

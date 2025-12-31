@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>الشروط والأحكام - إكسابها</title>
+    <title>الشروط والأحكام - mazadi</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -23,13 +24,12 @@
                     <div class="space-y-8 text-gray-700 leading-relaxed">
                         <div>
                             <h2 class="text-2xl font-bold text-gray-900 mb-4">1. القبول بالشروط</h2>
-                            <p>باستخدامك لموقع إكسابها، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي من هذه الشروط، يرجى عدم استخدام الموقع.</p>
+                            <p>باستخدامك لموقع mazadi، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي من هذه الشروط، يرجى عدم استخدام الموقع.</p>
                         </div>
 
                         <div>
                             <h2 class="text-2xl font-bold text-gray-900 mb-4">2. التسجيل والحساب</h2>
                             <ul class="list-disc list-inside space-y-2 mr-4">
-                                <li>يجب أن تكون بعمر 18 عاماً أو أكثر للتسجيل في الموقع</li>
                                 <li>يجب تقديم معلومات صحيحة ودقيقة عند التسجيل</li>
                                 <li>أنت مسؤول عن الحفاظ على سرية كلمة المرور الخاصة بك</li>
                                 <li>أنت مسؤول عن جميع الأنشطة التي تتم من خلال حسابك</li>
@@ -51,7 +51,7 @@
                             <h2 class="text-2xl font-bold text-gray-900 mb-4">4. المعاملات والمدفوعات</h2>
                             <ul class="list-disc list-inside space-y-2 mr-4">
                                 <li>جميع المعاملات تتم بين المشتري والبائع مباشرة</li>
-                                <li>إكسابها ليست طرفاً في أي معاملة بين المستخدمين</li>
+                                <li>mazadi ليست طرفاً في أي معاملة بين المستخدمين</li>
                                 <li>نحن لا نتحمل مسؤولية جودة المنتجات أو خدمات التوصيل</li>
                                 <li>يجب على المستخدمين التحقق من المنتجات قبل إتمام الصفقة</li>
                             </ul>

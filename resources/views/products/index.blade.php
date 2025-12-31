@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>المنتجات - إكسابها</title>
+    <title>المنتجات - mazadi</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,26 +36,63 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
+        
+        /* Custom Animations */
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .animation-delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        .animation-delay-400 {
+            animation-delay: 0.4s;
+        }
+        
+        .animation-delay-600 {
+            animation-delay: 0.6s;
+        }
+        
+        .animation-delay-800 {
+            animation-delay: 0.8s;
+        }
+        
+        .animation-delay-1000 {
+            animation-delay: 1s;
+        }
+        
+        .animation-delay-1200 {
+            animation-delay: 1.2s;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
     </style>
 </head>
 <body class="gradient-bg min-h-screen" dir="rtl">
     
     <x-navbar />
 
-    <!-- Hero Section -->
-    <section class="py-12 relative z-10">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                اكتشف أفضل العروض
-            </h2>
-            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                تسوق من آلاف المنتجات المتنوعة واعثر على ما تبحث عنه بأفضل الأسعار
-            </p>
-        </div>
-    </section>
-
     <!-- Main Content -->
-    <div class="container mx-auto px-4 pb-12 relative z-10">
+    <div class="container mx-auto px-4 py-6 relative z-10">
         @livewire('products-list')
     </div>
 
@@ -67,10 +105,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                     </svg>
                 </div>
-                <span class="text-lg font-bold text-gray-900">إكسابها</span>
+                <span class="text-lg font-bold text-gray-900">Mazadi</span>
             </div>
             <p class="text-gray-600">
-                © {{ date('Y') }} إكسابها. جميع الحقوق محفوظة.
+                © {{ date('Y') }} Mazadi. جميع الحقوق محفوظة.
             </p>
         </div>
     </footer>

@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $product->title }} - إكسابها</title>
+    <title>{{ $product->title }} - mazadi</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +23,7 @@
         .gradient-bg::before {
             content: '';
             position: absolute;
-            top: 0;
+            top: 0; 
             left: 0;
             right: 0;
             bottom: 0;

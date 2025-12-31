@@ -5,6 +5,80 @@
         </div>
     @endif
 
+    <!-- Admin Pending Approvals Section -->
+    @if (auth()->user()->hasRole('admin'))
+        @php
+            $pendingApprovals = \App\Models\Product::where('status', 0)->orderBy('created_at', 'desc')->take(5)->get();
+        @endphp
+        @if ($pendingApprovals->count() > 0)
+            <div class="mb-8 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-yellow-800 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+                            </path>
+                        </svg>
+                        طلبات الموافقة المعلقة
+                    </h3>
+                    <a href="{{ route('admin.products.approvals') }}" 
+                       class="text-sm bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition">
+                        عرض الكل ({{ \App\Models\Product::where('status', 0)->count() }})
+                    </a>
+                </div>
+                <div class="space-y-3">
+                    @foreach ($pendingApprovals as $product)
+                        <div class="bg-white rounded-lg p-4 shadow-sm border border-yellow-200">
+                            <div class="flex items-start gap-4">
+                                @if ($product->getMedia('images')->count() > 0)
+                                    <img src="{{ $product->getMedia('images')->first()->getUrl() }}" 
+                                         class="w-16 h-16 object-cover rounded-lg border border-gray-200">
+                                @else
+                                    <div class="w-16 h-16 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900 mb-1">{{ $product->title }}</h4>
+                                    <p class="text-sm text-gray-600 mb-2">{{ Str::limit($product->description, 100) }}</p>
+                                    <div class="flex items-center gap-4 text-sm">
+                                        <span class="text-gray-500">السعر: {{ number_format($product->price) }} ج.م</span>
+                                        <span class="text-gray-500">•</span>
+                                        <span class="text-gray-500">{{ $product->created_at->diffForHumans() }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="{{ route('admin.products.edit', $product) }}" 
+                                       class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <form action="{{ route('admin.products.approve', $product) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" 
+                                                class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition"
+                                                onclick="return confirm('هل أنت متأكد من الموافقة على هذا المنتج؟')">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+    @endif
+
     <div class="flex justify-between items-center mb-8">
         @if ($notifications->where('read_at', null)->count() > 0)
             <button wire:click="markAllAsRead"

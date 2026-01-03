@@ -22,6 +22,11 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->enum('condition', ['new', 'like_new', 'good', 'fair', 'poor'])->default('good');
             $table->boolean('status')->default(true);
+            $table->boolean('is_auction')->default(false);
+            $table->decimal('starting_price', 15, 2)->nullable();
+            $table->decimal('current_bid', 15, 2)->nullable();
+            $table->decimal('min_bid_increment', 15, 2)->nullable();
+            $table->timestamp('auction_ends_at')->nullable();
             $table->integer('views_count')->default(0);
             $table->string('location')->nullable();
             $table->boolean('is_featured')->default(false);

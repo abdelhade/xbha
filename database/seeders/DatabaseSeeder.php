@@ -14,15 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([
-        //     TenantSeeder::class,
-        //     CategorySeeder::class,
-        // ]);
+        $this->call([
+            TenantSeeder::class,
+            CategorySeeder::class,
+            AdminSeeder::class,
 
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@admin.com',
-            'password'=>Hash::make('12345678'),
+        
         ]);
     }
 }

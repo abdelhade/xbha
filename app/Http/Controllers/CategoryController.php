@@ -42,7 +42,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'order' => 'integer|min:0',
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:1024',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:10240',
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
@@ -107,7 +107,7 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
             'order' => 'integer|min:0',
             'status' => 'boolean',
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:1024',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:10240',
         ]);
 
         $category->update($validated);

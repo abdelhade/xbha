@@ -88,4 +88,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
+
+    /**
+     * Get user's wishlist (alias for favorites).
+     */
+    public function wishlist()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }

@@ -201,13 +201,19 @@ class ProductsList extends Component
         }
 
         $user = Auth::user();
-        $wishlist = $user->wishlist()->where('product_id', $productId)->first();
+        $wishlist = $user->wishlist()
+            ->where('product_id', $productId)
+            ->where('tenant_id', session('tenant_id', 1))
+            ->first();
 
         if ($wishlist) {
             $wishlist->delete();
             $this->dispatch('wishlistRemoved', $productId);
         } else {
-            $user->wishlist()->create(['product_id' => $productId]);
+            $user->wishlist()->create([
+                'product_id' => $productId,
+                'tenant_id' => session('tenant_id', 1)
+            ]);
             $this->dispatch('wishlistAdded', $productId);
         }
     }
@@ -218,7 +224,10 @@ class ProductsList extends Component
             return false;
         }
 
-        return Auth::user()->wishlist()->where('product_id', $productId)->exists();
+        return Auth::user()->wishlist()
+            ->where('product_id', $productId)
+            ->where('tenant_id', session('tenant_id', 1))
+            ->exists();
     }
 
     public function render()

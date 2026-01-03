@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             TenantSeeder::class,
             CategorySeeder::class,
             AdminSeeder::class,
-            
-          
+
+        
         ]);
     }
 }

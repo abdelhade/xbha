@@ -3,304 +3,163 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>الملف الشخصي - mazadi</title>
+    <title>الملف الشخصي - مزادي</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <style>
-        body { font-family: 'Tajawal', sans-serif; }
-        .gradient-bg {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
-            position: relative;
-        }
-        .gradient-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-        }
-        .elegant-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="gradient-bg min-h-screen" dir="rtl">
-    
-    <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-lg shadow-sm border-b border-white/20">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
+<body style="font-family:'Noto Kufi Arabic',sans-serif;background:#0f1e23;color:#f0e8cc;min-height:100vh">
+    <x-navbar />
+
+    <div style="max-width:1000px;margin:0 auto;padding:2rem 1rem">
+        <!-- Profile Header -->
+        <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.5rem;padding:2rem;margin-bottom:1.5rem">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:2rem">
+                <div style="position:relative;flex-shrink:0">
+                    <div style="width:5rem;height:5rem;background:linear-gradient(135deg,#2e8a99,#3aa0b0);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;color:#fff">
+                        {{ substr(Auth::user()->name, 0, 1) }}
                     </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-900">Mazadi</h1>
-                        <p class="text-xs text-gray-500">الملف الشخصي</p>
+                    <div style="position:absolute;bottom:0;right:0;width:1.25rem;height:1.25rem;background:#3aa0b0;border:2px solid #0f1e23;border-radius:50%"></div>
+                </div>
+                <div style="flex:1;min-width:200px">
+                    <h2 style="font-size:1.5rem;font-weight:900;color:#f0e8cc;margin-bottom:.25rem">{{ Auth::user()->name }}</h2>
+                    <p style="font-size:.875rem;color:rgba(240,232,204,.5);margin-bottom:.75rem">{{ Auth::user()->email }}</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+                        <span style="padding:.25rem .75rem;background:rgba(46,138,153,.15);color:#3aa0b0;border-radius:100px;font-size:.75rem;font-weight:700">عضو نشط</span>
+                        <span style="padding:.25rem .75rem;background:rgba(46,138,153,.08);color:rgba(240,232,204,.5);border-radius:100px;font-size:.75rem">انضم {{ Auth::user()->created_at->format('Y/m/d') }}</span>
                     </div>
                 </div>
-
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition">
-                        إعلاناتي
-                    </a>
-                    <a href="/" class="px-4 py-2 text-gray-700 hover:text-purple-600 transition">
-                        الرئيسية
-                    </a>
+                <div style="display:flex;gap:2rem;text-align:center">
+                    <div>
+                        <div style="font-size:1.5rem;font-weight:900;color:#f47c51">{{ Auth::user()->products()->count() }}</div>
+                        <div style="font-size:.75rem;color:rgba(240,232,204,.45)">إعلان</div>
+                    </div>
+                    <div>
+                        <div style="font-size:1.5rem;font-weight:900;color:#f47c51">{{ number_format(Auth::user()->products()->sum('views_count')) }}</div>
+                        <div style="font-size:.75rem;color:rgba(240,232,204,.45)">مشاهدة</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-12 relative z-10">
-        <div class="max-w-4xl mx-auto">
-            <!-- Profile Header -->
-            <div class="elegant-card rounded-3xl shadow-2xl p-8 mb-8">
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <!-- Avatar -->
-                    <div class="relative">
-                        <div class="w-32 h-32 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl">
-                            <span class="text-4xl font-bold text-white">{{ substr(Auth::user()->name, 0, 1) }}</span>
-                        </div>
-                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- Profile Info -->
-                    <div class="flex-1 text-center md:text-right">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ Auth::user()->name }}</h2>
-                        <p class="text-lg text-gray-600 mb-4">{{ Auth::user()->email }}</p>
-                        <div class="flex flex-wrap gap-3 justify-center md:justify-start">
-                            <span class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                                عضو نشط
-                            </span>
-                            <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                                انضم في {{ Auth::user()->created_at->format('Y/m/d') }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-3 gap-6 text-center">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem">
+            <!-- Account Info -->
+            <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.5rem">
+                <h3 style="font-size:1rem;font-weight:700;color:#f0e8cc;margin-bottom:1.25rem">معلومات الحساب</h3>
+                <form method="post" action="{{ route('profile.update') }}">
+                    @csrf @method('patch')
+                    <div style="display:flex;flex-direction:column;gap:1rem">
                         <div>
-                            <div class="text-2xl font-bold text-purple-600">{{ Auth::user()->products()->count() }}</div>
-                            <div class="text-sm text-gray-600">إعلان</div>
+                            <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الاسم الكامل</label>
+                            <input name="name" type="text" value="{{ old('name', $user->name) }}" required
+                                style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box"
+                                onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                            @error('name') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <div class="text-2xl font-bold text-blue-600">{{ Auth::user()->products()->sum('views_count') }}</div>
-                            <div class="text-sm text-gray-600">مشاهدة</div>
+                            <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">البريد الإلكتروني</label>
+                            <input name="email" type="email" value="{{ old('email', $user->email) }}" required
+                                style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box"
+                                onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                            @error('email') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
                         </div>
-                        <div>
-                            <div class="text-2xl font-bold text-green-600">{{ Auth::user()->sales()->where('status', 'completed')->count() }}</div>
-                            <div class="text-sm text-gray-600">مبيعة</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Profile Settings -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Account Information -->
-                <div class="elegant-card rounded-3xl shadow-xl p-8">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900">معلومات الحساب</h3>
-                            <p class="text-gray-600 text-sm">تحديث بياناتك الشخصية</p>
-                        </div>
-                    </div>
-
-                    <form method="post" action="{{ route('profile.update') }}" class="space-y-6">
-                        @csrf
-                        @method('patch')
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">الاسم الكامل</label>
-                            <input name="name" 
-                                   type="text" 
-                                   value="{{ old('name', $user->name) }}" 
-                                   required
-                                   class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                            @error('name')
-                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني</label>
-                            <input name="email" 
-                                   type="email" 
-                                   value="{{ old('email', $user->email) }}" 
-                                   required
-                                   class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                            @error('email')
-                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg">
+                        <button type="submit"
+                            style="width:100%;padding:.7rem;background:#2e8a99;color:#fff;border:none;border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s"
+                            onmouseover="this.style.background='#1f6370'" onmouseout="this.style.background='#2e8a99'">
                             حفظ التغييرات
                         </button>
-
-                        @if (session('status') === 'profile-updated')
-                            <div class="p-4 bg-green-50 border border-green-200 rounded-xl">
-                                <p class="text-green-800 text-sm font-medium">✓ تم حفظ التغييرات بنجاح</p>
-                            </div>
+                        @if(session('status') === 'profile-updated')
+                            <p style="font-size:.8rem;color:#3aa0b0;text-align:center">✓ تم حفظ التغييرات بنجاح</p>
                         @endif
-                    </form>
-                </div>
-
-                <!-- Security Settings -->
-                <div class="elegant-card rounded-3xl shadow-xl p-8">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900">الأمان</h3>
-                            <p class="text-gray-600 text-sm">تغيير كلمة المرور</p>
-                        </div>
                     </div>
-
-                    <form method="post" action="{{ route('password.update') }}" class="space-y-6">
-                        @csrf
-                        @method('put')
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">كلمة المرور الحالية</label>
-                            <input name="current_password" 
-                                   type="password"
-                                   class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                            @error('current_password', 'updatePassword')
-                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">كلمة المرور الجديدة</label>
-                            <input name="password" 
-                                   type="password"
-                                   class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                            @error('password', 'updatePassword')
-                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">تأكيد كلمة المرور</label>
-                            <input name="password_confirmation" 
-                                   type="password"
-                                   class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                        </div>
-
-                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all shadow-lg">
-                            تحديث كلمة المرور
-                        </button>
-
-                        @if (session('status') === 'password-updated')
-                            <div class="p-4 bg-green-50 border border-green-200 rounded-xl">
-                                <p class="text-green-800 text-sm font-medium">✓ تم تحديث كلمة المرور بنجاح</p>
-                            </div>
-                        @endif
-                    </form>
-                </div>
-            </div>
-
-            <!-- Danger Zone -->
-            <div class="elegant-card rounded-3xl shadow-xl p-8 mt-8 border-red-200">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-red-900">منطقة الخطر</h3>
-                        <p class="text-red-600 text-sm">حذف الحساب نهائياً</p>
-                    </div>
-                </div>
-
-                <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
-                    <p class="text-red-800 text-sm">
-                        ⚠️ تحذير: حذف الحساب سيؤدي إلى فقدان جميع بياناتك وإعلاناتك نهائياً ولا يمكن التراجع عن هذا الإجراء.
-                    </p>
-                </div>
-
-                <button onclick="document.getElementById('delete-modal').classList.remove('hidden')"
-                        class="px-6 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-all shadow-lg">
-                    حذف الحساب نهائياً
-                </button>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="flex justify-center gap-4 mt-8">
-                <a href="{{ route('dashboard') }}" class="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg">
-                    عرض إعلاناتي
-                </a>
-                <form method="POST" action="{{ route('logout') }}" class="inline">
-                    @csrf
-                    <button type="submit" class="px-8 py-3 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-all shadow-lg">
-                        تسجيل الخروج
-                    </button>
                 </form>
             </div>
+
+            <!-- Password -->
+            <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.5rem">
+                <h3 style="font-size:1rem;font-weight:700;color:#f0e8cc;margin-bottom:1.25rem">تغيير كلمة المرور</h3>
+                <form method="post" action="{{ route('password.update') }}">
+                    @csrf @method('put')
+                    <div style="display:flex;flex-direction:column;gap:1rem">
+                        <div>
+                            <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">كلمة المرور الحالية</label>
+                            <input name="current_password" type="password"
+                                style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box"
+                                onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                            @error('current_password', 'updatePassword') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">كلمة المرور الجديدة</label>
+                            <input name="password" type="password"
+                                style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box"
+                                onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                            @error('password', 'updatePassword') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">تأكيد كلمة المرور</label>
+                            <input name="password_confirmation" type="password"
+                                style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box"
+                                onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                        </div>
+                        <button type="submit"
+                            style="width:100%;padding:.7rem;background:#2e8a99;color:#fff;border:none;border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s"
+                            onmouseover="this.style.background='#1f6370'" onmouseout="this.style.background='#2e8a99'">
+                            تحديث كلمة المرور
+                        </button>
+                        @if(session('status') === 'password-updated')
+                            <p style="font-size:.8rem;color:#3aa0b0;text-align:center">✓ تم تحديث كلمة المرور بنجاح</p>
+                        @endif
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div style="background:rgba(244,124,81,.04);border:1px solid rgba(244,124,81,.15);border-radius:1.25rem;padding:1.5rem;margin-top:1.5rem">
+            <h3 style="font-size:1rem;font-weight:700;color:#f47c51;margin-bottom:.5rem">منطقة الخطر</h3>
+            <p style="font-size:.85rem;color:rgba(240,232,204,.45);margin-bottom:1rem">حذف الحساب نهائياً لا يمكن التراجع عنه</p>
+            <button onclick="document.getElementById('delete-modal').style.display='flex'"
+                style="padding:.6rem 1.5rem;background:rgba(244,124,81,.1);border:1px solid rgba(244,124,81,.3);color:#f47c51;border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;font-weight:700;cursor:pointer;transition:all .2s"
+                onmouseover="this.style.background='rgba(244,124,81,.2)'" onmouseout="this.style.background='rgba(244,124,81,.1)'">
+                حذف الحساب نهائياً
+            </button>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem">
+            <a href="{{ route('dashboard') }}"
+               style="padding:.65rem 1.5rem;background:#f47c51;color:#fff;border-radius:.75rem;font-weight:700;text-decoration:none;font-size:.875rem;transition:all .2s"
+               onmouseover="this.style.background='#c95f3a'" onmouseout="this.style.background='#f47c51'">
+                عرض إعلاناتي
+            </a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    style="padding:.65rem 1.5rem;background:transparent;border:1px solid rgba(240,232,204,.15);color:rgba(240,232,204,.5);border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s"
+                    onmouseover="this.style.borderColor='rgba(244,124,81,.3)';this.style.color='#f47c51'" onmouseout="this.style.borderColor='rgba(240,232,204,.15)';this.style.color='rgba(240,232,204,.5)'">
+                    تسجيل الخروج
+                </button>
+            </form>
         </div>
     </div>
 
     <!-- Delete Modal -->
-    <div id="delete-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">تأكيد حذف الحساب</h3>
-                <p class="text-gray-600">هذا الإجراء لا يمكن التراجع عنه. أدخل كلمة المرور للتأكيد.</p>
-            </div>
-
+    <div id="delete-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;z-index:1000;padding:1rem">
+        <div style="background:#1a2e35;border:1px solid rgba(244,124,81,.25);border-radius:1.5rem;padding:2rem;max-width:420px;width:100%">
+            <h3 style="font-size:1.1rem;font-weight:900;color:#f0e8cc;margin-bottom:.5rem">تأكيد حذف الحساب</h3>
+            <p style="font-size:.85rem;color:rgba(240,232,204,.5);margin-bottom:1.5rem">هذا الإجراء لا يمكن التراجع عنه. أدخل كلمة المرور للتأكيد.</p>
             <form method="post" action="{{ route('profile.destroy') }}">
-                @csrf
-                @method('delete')
-                
-                <input type="password" 
-                       name="password" 
-                       placeholder="كلمة المرور"
-                       required
-                       class="w-full px-4 py-3 border border-gray-300 rounded-xl mb-6 focus:ring-2 focus:ring-red-500 focus:border-red-500">
-                
-                <div class="flex gap-3">
-                    <button type="submit" class="flex-1 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition">
+                @csrf @method('delete')
+                <input type="password" name="password" placeholder="كلمة المرور" required
+                    style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(244,124,81,.3);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;margin-bottom:1rem;box-sizing:border-box">
+                <div style="display:flex;gap:.75rem">
+                    <button type="submit"
+                        style="flex:1;padding:.65rem;background:rgba(244,124,81,.15);border:1px solid rgba(244,124,81,.4);color:#f47c51;border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-weight:700;cursor:pointer">
                         حذف نهائي
                     </button>
-                    <button type="button" 
-                            onclick="document.getElementById('delete-modal').classList.add('hidden')"
-                            class="flex-1 py-3 bg-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-400 transition">
+                    <button type="button" onclick="document.getElementById('delete-modal').style.display='none'"
+                        style="flex:1;padding:.65rem;background:rgba(46,138,153,.1);border:1px solid rgba(46,138,153,.2);color:#3aa0b0;border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-weight:700;cursor:pointer">
                         إلغاء
                     </button>
                 </div>
@@ -308,11 +167,8 @@
         </div>
     </div>
 
-    @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-        <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-            @csrf
-        </form>
+    @if($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+        <form id="send-verification" method="post" action="{{ route('verification.send') }}">@csrf</form>
     @endif
-
 </body>
 </html>

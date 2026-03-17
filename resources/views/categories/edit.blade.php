@@ -4,213 +4,95 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>تعديل التصنيف - Mazadi</title>
-    
+    <title>تعديل التصنيف - مزادي</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    @livewireStyles
-    
-    <style>
-        body { font-family: 'Tajawal', sans-serif; }
-        .gradient-bg {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
-            position: relative;
-        }
-        .gradient-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-        }
-        .elegant-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="gradient-bg min-h-screen" dir="rtl">
-    
-    <x-navbar subtitle="تعديل التصنيف" />
+<body style="font-family:'Noto Kufi Arabic',sans-serif;background:#0f1e23;color:#f0e8cc;min-height:100vh">
+    <x-navbar />
 
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8 relative z-10">
-        <div class="max-w-2xl mx-auto">
-            
-            <!-- Page Header -->
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">تعديل التصنيف</h2>
-                <p class="text-gray-600">تعديل تفاصيل التصنيف: {{ $category->name }}</p>
-            </div>
+    <div style="max-width:700px;margin:0 auto;padding:2rem 1rem">
+        <div style="margin-bottom:2rem">
+            <h2 style="font-size:1.75rem;font-weight:900;color:#f0e8cc">تعديل التصنيف</h2>
+            <p style="font-size:.875rem;color:rgba(240,232,204,.45);margin-top:.25rem">{{ $category->name }}</p>
+        </div>
 
-            <!-- Form Card -->
-            <div class="elegant-card rounded-xl p-8 shadow-xl">
-                <form action="{{ route('categories.update', $category) }}" 
-                      method="POST" 
-                      enctype="multipart/form-data"
-                      class="space-y-6">
-                    @csrf
-                    @method('PUT')
-                    
-                    <!-- Category Name -->
+        <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.5rem">
+            <form action="{{ route('categories.update', $category) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div style="display:flex;flex-direction:column;gap:1rem">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                            اسم التصنيف <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" 
-                               id="name" 
-                               name="name" 
-                               value="{{ old('name', $category->name) }}"
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 @error('name') border-red-500 @enderror"
-                               placeholder="أدخل اسم التصنيف"
-                               required>
-                        @error('name')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">اسم التصنيف *</label>
+                        <input type="text" name="name" value="{{ old('name', $category->name) }}" required placeholder="أدخل اسم التصنيف"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box"
+                            onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                        @error('name') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
                     </div>
-
-                    <!-- Parent Category -->
                     <div>
-                        <label for="parent_id" class="block text-sm font-medium text-gray-700 mb-2">
-                            التصنيف الأب (اختياري)
-                        </label>
-                        <select id="parent_id" 
-                                name="parent_id" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 @error('parent_id') border-red-500 @enderror">
-                            <option value="">اختر تصنيف أب (اختياري)</option>
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">التصنيف الأب (اختياري)</label>
+                        <select name="parent_id"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none">
+                            <option value="">بدون تصنيف أب</option>
                             @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}" 
-                                        {{ old('parent_id', $category->parent_id) == $cat->id ? 'selected' : '' }}>
-                                    {{ $cat->name }}
-                                </option>
+                                <option value="{{ $cat->id }}" {{ old('parent_id', $category->parent_id) == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
                             @endforeach
                         </select>
-                        @error('parent_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
                     </div>
-
-                    <!-- Description -->
                     <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
-                            الوصف
-                        </label>
-                        <textarea id="description" 
-                                  name="description" 
-                                  rows="4"
-                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 @error('description') border-red-500 @enderror"
-                                  placeholder="أدخل وصف التصنيف">{{ old('description', $category->description) }}</textarea>
-                        @error('description')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الوصف</label>
+                        <textarea name="description" rows="4" placeholder="أدخل وصف التصنيف"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;resize:vertical;box-sizing:border-box"
+                            onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">{{ old('description', $category->description) }}</textarea>
                     </div>
-
-                    <!-- Order -->
                     <div>
-                        <label for="order" class="block text-sm font-medium text-gray-700 mb-2">
-                            ترتيب العرض
-                        </label>
-                        <input type="number" 
-                               id="order" 
-                               name="order" 
-                               value="{{ old('order', $category->order) }}"
-                               min="0"
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 @error('order') border-red-500 @enderror"
-                               placeholder="0">
-                        @error('order')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                        <p class="mt-1 text-sm text-gray-500">الأرقام الأقل تظهر أولاً</p>
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">ترتيب العرض</label>
+                        <input type="number" name="order" value="{{ old('order', $category->order) }}" min="0"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box"
+                            onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                        <p style="margin-top:.3rem;font-size:.75rem;color:rgba(240,232,204,.35)">الأرقام الأقل تظهر أولاً</p>
                     </div>
-
-                    <!-- Status -->
                     <div>
-                        <label class="flex items-center">
-                            <input type="checkbox" 
-                                   name="status" 
-                                   value="1"
-                                   {{ old('status', $category->status) ? 'checked' : '' }}
-                                   class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50">
-                            <span class="mr-2 text-sm font-medium text-gray-700">تصنيف نشط</span>
+                        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+                            <input type="checkbox" name="status" value="1" {{ old('status', $category->status) ? 'checked' : '' }}
+                                style="width:1rem;height:1rem;accent-color:#2e8a99">
+                            <span style="font-size:.875rem;color:rgba(240,232,204,.7)">تصنيف نشط</span>
                         </label>
-                        <p class="mt-1 text-sm text-gray-500">التصنيفات غير النشطة لن تظهر في الموقع</p>
+                        <p style="margin-top:.3rem;font-size:.75rem;color:rgba(240,232,204,.35)">التصنيفات غير النشطة لن تظهر في الموقع</p>
                     </div>
-
-                    <!-- Current Icon -->
                     @if($category->getFirstMediaUrl('icon'))
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                الأيقونة الحالية
-                            </label>
-                            <div class="flex items-center gap-4">
-                                <img src="{{ $category->getFirstMediaUrl('icon') }}" 
-                                     alt="{{ $category->name }}" 
-                                     class="w-16 h-16 rounded-lg object-cover border border-gray-200">
-                                <div>
-                                    <p class="text-sm text-gray-600">الأيقونة الحالية</p>
-                                    <p class="text-xs text-gray-500">اختر أيقونة جديدة لاستبدالها</p>
-                                </div>
-                            </div>
+                            <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الأيقونة الحالية</label>
+                            <img src="{{ $category->getFirstMediaUrl('icon') }}" alt="{{ $category->name }}"
+                                style="width:4rem;height:4rem;object-fit:cover;border-radius:.75rem;border:1px solid rgba(46,138,153,.2)">
                         </div>
                     @endif
-
-                    <!-- Icon Upload -->
                     <div>
-                        <label for="icon" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">
                             {{ $category->getFirstMediaUrl('icon') ? 'استبدال الأيقونة' : 'أيقونة التصنيف' }}
                         </label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors" 
-                             x-data="{ files: null }">
-                            <div class="space-y-1 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <div class="flex text-sm text-gray-600">
-                                    <label for="icon" class="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-purple-500">
-                                        <span>اختر ملف</span>
-                                        <input id="icon" 
-                                               name="icon" 
-                                               type="file" 
-                                               accept="image/*"
-                                               class="sr-only"
-                                               @change="files = $event.target.files">
-                                    </label>
-                                    <p class="pr-1">أو اسحب الملف هنا</p>
-                                </div>
-                                <p class="text-xs text-gray-500">PNG, JPG, SVG حتى 1MB</p>
-                            </div>
-                        </div>
-                        @error('icon')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        <input type="file" name="icon" accept="image/*"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:rgba(240,232,204,.6);font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;box-sizing:border-box">
+                        @error('icon') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
                     </div>
-
-                    <!-- Form Actions -->
-                    <div class="flex gap-4 pt-6">
-                        <a href="{{ route('categories.index') }}" 
-                           class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-center">
-                            إلغاء
-                        </a>
-                        <button type="submit" 
-                                class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 font-medium">
+                    <div style="display:flex;gap:.75rem;flex-wrap:wrap;padding-top:.5rem">
+                        <button type="submit"
+                            style="flex:1;min-width:140px;padding:.75rem;background:#f47c51;color:#fff;border:none;border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s"
+                            onmouseover="this.style.background='#c95f3a'" onmouseout="this.style.background='#f47c51'">
                             حفظ التغييرات
                         </button>
+                        <a href="{{ route('categories.index') }}"
+                            style="flex:1;min-width:140px;padding:.75rem;background:transparent;border:1px solid rgba(240,232,204,.15);color:rgba(240,232,204,.5);border-radius:.75rem;font-size:.9rem;font-weight:600;text-decoration:none;text-align:center;transition:all .2s"
+                            onmouseover="this.style.borderColor='rgba(240,232,204,.3)'" onmouseout="this.style.borderColor='rgba(240,232,204,.15)'">
+                            إلغاء
+                        </a>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
-
-    @livewireScripts
 </body>
 </html>
 @endhasrole

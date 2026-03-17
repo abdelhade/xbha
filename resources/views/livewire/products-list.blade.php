@@ -1,9 +1,9 @@
 <div>
     <style>
         .product-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: rgba(26,46,53,.7);
             border-radius: 16px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border: 1px solid rgba(46,138,153,.15);
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
@@ -16,11 +16,8 @@
         .product-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(46,138,153,.08) 0%, transparent 100%);
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -28,8 +25,8 @@
 
         .product-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,.4);
+            border-color: rgba(46,138,153,.35);
         }
 
         .product-card:hover::before {
@@ -40,7 +37,7 @@
             position: relative;
             height: 180px;
             overflow: hidden;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            border-bottom: 1px solid rgba(46,138,153,.1);
         }
 
         .product-image {
@@ -92,8 +89,8 @@
         }
 
         .price-badge {
-            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-            color: #ffffff;
+            background: #f47c51;
+            color: #fff;
             padding: 6px 12px;
             font-weight: 800;
             border-radius: 999px;
@@ -101,7 +98,7 @@
             position: absolute;
             bottom: 8px;
             left: 8px;
-            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 12px rgba(244,124,81,.35);
         }
 
         .product-content {
@@ -115,7 +112,7 @@
         }
 
         .product-title {
-            color: #1f2937;
+            color: #f0e8cc;
             font-size: 14px;
             font-weight: 700;
             line-height: 1.3;
@@ -124,11 +121,11 @@
         }
 
         .product-card:hover .product-title {
-            color: #7c3aed;
+            color: #3aa0b0;
         }
 
         .product-description {
-            color: #6b7280;
+            color: rgba(240,232,204,.45);
             font-size: 12px;
             line-height: 1.4;
             display: -webkit-box;
@@ -142,17 +139,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 8px 0;
-            border-top: 1px solid rgba(226, 232, 240, 0.8);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            border-top: 1px solid rgba(46,138,153,.1);
+            border-bottom: 1px solid rgba(46,138,153,.1);
         }
 
-        .meta-item {
-            text-align: center;
-            flex: 1;
-        }
+        .meta-item { text-align: center; flex: 1; }
 
         .meta-label {
-            color: #9ca3af;
+            color: rgba(240,232,204,.35);
             font-size: 10px;
             font-weight: 500;
             margin-bottom: 2px;
@@ -160,11 +154,7 @@
             letter-spacing: 0.5px;
         }
 
-        .meta-value {
-            color: #374151;
-            font-size: 12px;
-            font-weight: 600;
-        }
+        .meta-value { color: rgba(240,232,204,.75); font-size: 12px; font-weight: 600; }
 
         .countdown-timer {
             color: #dc2626;
@@ -180,8 +170,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
-            color: #ffffff;
+            background: #f47c51;
+            color: #fff;
             border-radius: 12px;
             padding: 8px 12px;
             font-weight: 700;
@@ -197,32 +187,15 @@
             position: relative;
             overflow: hidden;
             font-size: 13px;
+            font-family: 'Noto Kufi Arabic', sans-serif;
         }
 
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(124, 58, 237, 0.4);
-        }
+        .btn-primary:hover { background: #c95f3a; transform: translateY(-2px); }
 
         .btn-secondary {
             background: transparent;
-            color: #7c3aed;
-            border: 2px solid #7c3aed;
+            color: #2e8a99;
+            border: 1.5px solid rgba(46,138,153,.4);
             border-radius: 12px;
             padding: 6px 12px;
             font-weight: 600;
@@ -235,261 +208,91 @@
             gap: 4px;
             flex: 1;
             font-size: 13px;
+            font-family: 'Noto Kufi Arabic', sans-serif;
         }
 
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(167, 139, 250, 0.1) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px -2px rgba(124, 58, 237, 0.2);
-        }
+        .btn-secondary:hover { background: rgba(46,138,153,.1); transform: translateY(-2px); }
 
         .wishlist-btn {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 32px;
-            height: 32px;
+            top: 8px; left: 8px;
+            width: 32px; height: 32px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid rgba(226, 232, 240, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: rgba(15,30,35,.7);
+            border: 1px solid rgba(46,138,153,.3);
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10;
         }
-
-        .wishlist-btn:hover {
-            background: #fef2f2;
-            border-color: #f87171;
-            transform: scale(1.1);
-        }
-
-        .wishlist-btn.active {
-            background: #fef2f2;
-            border-color: #ef4444;
-        }
-
-        .wishlist-btn svg {
-            width: 16px;
-            height: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .wishlist-btn:hover svg {
-            fill: #ef4444;
-            stroke: #ef4444;
-        }
-
-        .wishlist-btn.active svg {
-            fill: #ef4444;
-            stroke: #ef4444;
-        }
+        .wishlist-btn:hover { background: rgba(244,124,81,.15); border-color: #f47c51; transform: scale(1.1); }
+        .wishlist-btn.active { background: rgba(244,124,81,.15); border-color: #f47c51; }
+        .wishlist-btn svg { width: 16px; height: 16px; stroke: rgba(240,232,204,.6); transition: all 0.3s ease; }
+        .wishlist-btn:hover svg, .wishlist-btn.active svg { fill: #f47c51; stroke: #f47c51; }
 
         .quick-view-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.95);
-            color: #1f2937;
-            padding: 12px 20px;
+            background: rgba(26,46,53,.9);
+            color: #f0e8cc;
+            padding: 10px 18px;
             border-radius: 8px;
             font-weight: 600;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0; visibility: hidden;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border: 1px solid rgba(46,138,153,.3);
             backdrop-filter: blur(8px);
+            font-family: 'Noto Kufi Arabic', sans-serif;
         }
+        .product-card:hover .quick-view-btn { opacity: 1; visibility: visible; }
+        .quick-view-btn:hover { background: rgba(46,138,153,.2); transform: translate(-50%, -50%) scale(1.05); }
 
-        .product-card:hover .quick-view-btn {
-            opacity: 1;
-            visibility: visible;
-        }
+        .skeleton { background: linear-gradient(90deg, rgba(46,138,153,.08) 25%, rgba(46,138,153,.15) 50%, rgba(46,138,153,.08) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
 
-        .quick-view-btn:hover {
-            background: #ffffff;
-            transform: translate(-50%, -50%) scale(1.05);
-        }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        .skeleton {
-            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* Mobile Responsive Improvements */
         @media (max-width: 768px) {
-            .product-card {
-                border-radius: 12px;
-            }
-            
-            .product-image-container {
-                height: 160px;
-            }
-            
-            .product-title {
-                font-size: 13px;
-            }
-            
-            .product-description {
-                font-size: 11px;
-            }
-            
-            .product-meta {
-                flex-direction: column;
-                gap: 6px;
-                padding: 6px 0;
-            }
-            
-            .meta-item {
-                text-align: right;
-            }
-            
-            .product-actions {
-                flex-direction: column;
-                gap: 4px;
-            }
-            
-            .btn-primary,
-            .btn-secondary {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-            
-            .product-badges {
-                top: 6px;
-                right: 6px;
-                gap: 3px;
-            }
-            
-            .product-badge {
-                font-size: 9px;
-                padding: 3px 6px;
-            }
-            
-            .price-badge {
-                font-size: 11px;
-                padding: 4px 8px;
-                bottom: 6px;
-                left: 6px;
-            }
-            
-            .wishlist-btn {
-                width: 28px;
-                height: 28px;
-                top: 6px;
-                left: 6px;
-            }
-            
-            .wishlist-btn svg {
-                width: 14px;
-                height: 14px;
-            }
+            .product-card { border-radius: 12px; }
+            .product-image-container { height: 160px; }
+            .product-title { font-size: 13px; }
+            .product-description { font-size: 11px; }
+            .product-meta { flex-direction: column; gap: 6px; padding: 6px 0; }
+            .meta-item { text-align: right; }
+            .product-actions { flex-direction: column; gap: 4px; }
+            .btn-primary, .btn-secondary { padding: 6px 10px; font-size: 12px; }
+            .product-badges { top: 6px; right: 6px; gap: 3px; }
+            .product-badge { font-size: 9px; padding: 3px 6px; }
+            .price-badge { font-size: 11px; padding: 4px 8px; bottom: 6px; left: 6px; }
+            .wishlist-btn { width: 28px; height: 28px; top: 6px; left: 6px; }
+            .wishlist-btn svg { width: 14px; height: 14px; }
         }
 
         @media (max-width: 640px) {
-            .product-image-container {
-                height: 140px;
-            }
-            
-            .product-content {
-                padding: 0.75rem;
-            }
-            
-            .product-title {
-                font-size: 12px;
-            }
-            
-            .product-description {
-                font-size: 10px;
-                -webkit-line-clamp: 1;
-            }
-            
-            .btn-primary,
-            .btn-secondary {
-                padding: 5px 8px;
-                font-size: 11px;
-            }
+            .product-image-container { height: 140px; }
+            .product-content { padding: 0.75rem; }
+            .product-title { font-size: 12px; }
+            .product-description { font-size: 10px; -webkit-line-clamp: 1; }
+            .btn-primary, .btn-secondary { padding: 5px 8px; font-size: 11px; }
         }
 
-        /* Touch device optimizations */
         @media (hover: none) {
-            .product-card:hover {
-                transform: none;
-            }
-            
-            .product-card:hover .product-image {
-                transform: none;
-            }
-            
-            .quick-view-btn {
-                opacity: 1;
-                visibility: visible;
-                position: static;
-                transform: none;
-                margin: 8px 0;
-                width: 100%;
-            }
-            
-            .product-card:hover .image-overlay {
-                opacity: 0;
-            }
+            .product-card:hover { transform: none; }
+            .product-card:hover .product-image { transform: none; }
+            .quick-view-btn { opacity: 1; visibility: visible; position: static; transform: none; margin: 8px 0; width: 100%; }
+            .product-card:hover .image-overlay { opacity: 0; }
         }
 
-        /* Loading skeleton for mobile */
-        .skeleton-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-radius: 16px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-
-        .skeleton-image {
-            height: 240px;
-            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        .skeleton-content {
-            padding: 1.25rem;
-        }
-
-        .skeleton-title {
-            height: 20px;
-            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 4px;
-            margin-bottom: 8px;
-        }
-
-        .skeleton-text {
-            height: 14px;
-            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 4px;
-            margin-bottom: 6px;
-        }
-
-        .skeleton-text:last-child {
-            width: 60%;
-        }
+        .skeleton-card { background: rgba(26,46,53,.5); border-radius: 16px; border: 1px solid rgba(46,138,153,.1); overflow: hidden; margin-bottom: 1.5rem; }
+        .skeleton-image { height: 240px; background: linear-gradient(90deg, rgba(46,138,153,.06) 25%, rgba(46,138,153,.12) 50%, rgba(46,138,153,.06) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        .skeleton-content { padding: 1.25rem; }
+        .skeleton-title { height: 20px; background: linear-gradient(90deg, rgba(46,138,153,.06) 25%, rgba(46,138,153,.12) 50%, rgba(46,138,153,.06) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 4px; margin-bottom: 8px; }
+        .skeleton-text { height: 14px; background: linear-gradient(90deg, rgba(46,138,153,.06) 25%, rgba(46,138,153,.12) 50%, rgba(46,138,153,.06) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 4px; margin-bottom: 6px; }
+        .skeleton-text:last-child { width: 60%; }
     </style>
 
     <!-- Search and Filters -->
-    <div class="elegant-card rounded-3xl shadow-xl p-4 md:p-6 mb-8">
+    <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.25rem 1.5rem;margin-bottom:1.5rem">
         <!-- Search Bar -->
         <div class="mb-6">
             <div class="relative">
@@ -498,24 +301,18 @@
                     wire:input.debounce.300ms="updateSearchSuggestions"
                     type="text" 
                     placeholder="ابحث عن المنتجات..."
-                    class="w-full px-4 py-3 md:px-6 md:py-4 pr-12 bg-white/80 border border-gray-200 rounded-xl md:rounded-2xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-base md:text-lg">
-                <svg class="absolute right-3 md:right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    style="width:100%;padding:.75rem 1rem .75rem 3rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.9rem;outline:none;transition:all .3s"
+                    onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                <svg style="position:absolute;right:.85rem;top:50%;transform:translateY(-50%);width:18px;height:18px;color:rgba(240,232,204,.3)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
-                
-                <!-- Search Suggestions Dropdown -->
                 @if ($showSearchSuggestions && count($searchSuggestions) > 0)
-                    <div class="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-20 overflow-hidden">
+                    <div style="position:absolute;top:100%;left:0;right:0;margin-top:.5rem;background:#1a2e35;border:1px solid rgba(46,138,153,.25);border-radius:.75rem;z-index:20;overflow:hidden">
                         @foreach ($searchSuggestions as $suggestion)
-                            <button 
-                                wire:click="selectSearchSuggestion('{{ $suggestion }}')"
-                                class="w-full px-4 py-3 text-right hover:bg-gray-50 transition-colors text-sm md:text-base border-b border-gray-100 last:border-b-0">
-                                <div class="flex items-center justify-between">
-                                    <span>{{ $suggestion }}</span>
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </div>
+                            <button wire:click="selectSearchSuggestion('{{ $suggestion }}')"
+                                style="width:100%;padding:.75rem 1rem;text-align:right;background:transparent;border:none;border-bottom:1px solid rgba(46,138,153,.1);color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;cursor:pointer;transition:background .2s"
+                                onmouseover="this.style.background='rgba(46,138,153,.1)'" onmouseout="this.style.background='transparent'">
+                                {{ $suggestion }}
                             </button>
                         @endforeach
                     </div>
@@ -524,24 +321,19 @@
         </div>
 
         <!-- Main Filters -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
-            <!-- Category Filter -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
             <div>
-                <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">التصنيف</label>
-                <select wire:model.live="category_id"
-                    class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">التصنيف</label>
+                <select wire:model.live="category_id" style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
                     <option value="">جميع التصنيفات</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
-
-            <!-- Condition Filter -->
             <div>
-                <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">الحالة</label>
-                <select wire:model.live="condition"
-                    class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الحالة</label>
+                <select wire:model.live="condition" style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
                     <option value="">جميع الحالات</option>
                     <option value="new">جديد</option>
                     <option value="like_new">شبه جديد</option>
@@ -550,46 +342,37 @@
                     <option value="poor">يحتاج إصلاح</option>
                 </select>
             </div>
-
-            <!-- Sort -->
             <div>
-                <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">الترتيب</label>
-                <select wire:model.live="sort"
-                    class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الترتيب</label>
+                <select wire:model.live="sort" style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
                     <option value="latest">الأحدث</option>
                     <option value="oldest">الأقدم</option>
                     <option value="price_low">السعر: من الأقل</option>
                     <option value="price_high">السعر: من الأعلى</option>
                 </select>
             </div>
-
-            <!-- Location Filter -->
             <div>
-                <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">الموقع</label>
+                <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الموقع</label>
                 <input wire:model.live="location" type="text" placeholder="المدينة أو المنطقة"
-                    class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                    style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
             </div>
         </div>
 
         <!-- Advanced Filters Toggle -->
-        <div class="mb-4">
+        <div class="mb-3">
             <button onclick="toggleAdvancedFilters()" 
-                class="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 transition-colors text-sm md:text-base">
-                <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-                </svg>
+                style="background:transparent;border:none;color:#2e8a99;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
                 فلاتر متقدمة
             </button>
         </div>
 
         <!-- Advanced Filters -->
         <div id="advancedFilters" class="hidden">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 p-3 md:p-4 bg-gray-50 rounded-xl">
-                <!-- Rating Filter -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4 p-3" style="background:rgba(15,30,35,.4);border-radius:.75rem">
                 <div>
-                    <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">تقييم البائع</label>
-                    <select wire:model.live="rating"
-                        class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                    <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">تقييم البائع</label>
+                    <select wire:model.live="rating" style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
                         <option value="">الكل</option>
                         <option value="4">4+ نجوم</option>
                         <option value="3">3+ نجوم</option>
@@ -597,36 +380,26 @@
                         <option value="1">1+ نجوم</option>
                     </select>
                 </div>
-
-                <!-- Auction Filter -->
                 <div>
-                    <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">نوع البيع</label>
-                    <select wire:model.live="is_auction"
-                        class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                    <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">نوع البيع</label>
+                    <select wire:model.live="is_auction" style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
                         <option value="">الكل</option>
                         <option value="1">مزادات فقط</option>
                         <option value="0">بيع مباشر فقط</option>
                     </select>
                 </div>
-
-                <!-- Has Bids Filter -->
                 <div>
-                    <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">المزايدات</label>
-                    <select wire:model.live="has_bids"
-                        class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                    <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">المزايدات</label>
+                    <select wire:model.live="has_bids" style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
                         <option value="">الكل</option>
                         <option value="1">لديه مزايدات</option>
                         <option value="0">بدون مزايدات</option>
                     </select>
                 </div>
-
-                <!-- Clear Filters -->
-                <div class="flex items-end">
+                <div style="display:flex;align-items:flex-end">
                     <button wire:click="clearFilters"
-                        class="w-full px-3 py-2 md:px-4 md:py-3 bg-red-500 text-white rounded-lg md:rounded-xl hover:bg-red-600 transition-all flex items-center justify-center gap-2 text-sm md:text-base">
-                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
+                        style="width:100%;padding:.6rem .85rem;background:rgba(244,124,81,.15);border:1px solid rgba(244,124,81,.3);color:#f47c51;border-radius:.65rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;transition:all .2s">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                         مسح الفلاتر
                     </button>
                 </div>
@@ -634,35 +407,34 @@
         </div>
 
         <!-- Price Range -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-                <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">أقل سعر</label>
+                <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">أقل سعر</label>
                 <input wire:model.live="min_price" type="number" placeholder="0"
-                    class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                    style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
             </div>
             <div>
-                <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">أعلى سعر</label>
+                <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">أعلى سعر</label>
                 <input wire:model.live="max_price" type="number" placeholder="10000"
-                    class="w-full px-3 py-2 md:px-4 md:py-3 bg-white/70 border border-gray-200 rounded-lg md:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm md:text-base">
+                    style="width:100%;padding:.6rem .85rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.65rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.85rem;outline:none">
             </div>
             <div>
-                <label class="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">العملة</label>
-                <div class="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-100 border border-gray-200 rounded-lg md:rounded-xl text-gray-600 text-sm md:text-base">
-                    ج.م مصري
-                </div>
+                <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">العملة</label>
+                <div style="padding:.6rem .85rem;background:rgba(15,30,35,.3);border:1px solid rgba(46,138,153,.1);border-radius:.65rem;color:rgba(240,232,204,.4);font-size:.85rem">ج.م مصري</div>
             </div>
         </div>
     </div>
 
     <!-- Results Count -->
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-900">
+        <h2 style="font-size:1.25rem;font-weight:900;color:#f0e8cc">
             المنتجات المتاحة ({{ $products->total() }})
         </h2>
 
         @auth
             <a href="{{ route('products.create') }}"
-                class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg">
+                style="padding:.65rem 1.25rem;background:#f47c51;color:#fff;border-radius:.75rem;font-weight:700;font-size:.875rem;text-decoration:none;transition:all .2s"
+                onmouseover="this.style.background='#c95f3a'" onmouseout="this.style.background='#f47c51'">
                 + إضافة إعلان
             </a>
         @endauth
@@ -671,7 +443,6 @@
     <!-- Products Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         @if ($isLoading)
-            <!-- Skeleton Loading Cards -->
             @for ($i = 1; $i <= 8; $i++)
                 <div class="skeleton-card">
                     <div class="skeleton-image"></div>
@@ -827,22 +598,19 @@
 
 <!-- Compare Bar -->
 @if (count($compareList) > 0)
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-30 p-4">
-        <div class="container mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <span class="font-semibold text-gray-700">{{ count($compareList) }} منتجات للمقارنة</span>
+    <div style="position:fixed;bottom:0;left:0;right:0;background:rgba(26,46,53,.95);backdrop-filter:blur(10px);border-top:1px solid rgba(46,138,153,.2);z-index:30;padding:1rem">
+        <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:1rem">
+                <span style="font-weight:600;color:#f0e8cc;font-size:.9rem">{{ count($compareList) }} منتجات للمقارنة</span>
                 @if (count($compareList) >= 2)
                     <button wire:click="openCompareModal" 
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        style="padding:.5rem 1rem;background:#2e8a99;color:#fff;border:none;border-radius:.6rem;font-family:'Noto Kufi Arabic',sans-serif;font-weight:600;cursor:pointer">
                         مقارنة
                     </button>
                 @endif
             </div>
-            <button wire:click="$set('compareList', [])" 
-                class="text-gray-500 hover:text-gray-700 transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+            <button wire:click="$set('compareList', [])" style="background:transparent;border:none;color:rgba(240,232,204,.5);cursor:pointer">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
     </div>
@@ -850,41 +618,31 @@
 
 <!-- Quick View Modal -->
 @if ($showQuickView && $quickViewProduct)
-    <div class="fixed inset-0 z-50 overflow-y-auto" style="display: flex; align-items: center; justify-content: center;">
-        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" wire:click="closeQuickView"></div>
-        
-        <div class="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between p-6 border-b border-gray-200">
-                <h3 class="text-2xl font-bold text-gray-900">{{ $quickViewProduct->title }}</h3>
-                <button wire:click="closeQuickView" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
+    <div style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;overflow-y:auto">
+        <div style="position:fixed;inset:0;background:rgba(0,0,0,.7)" wire:click="closeQuickView"></div>
+        <div style="position:relative;background:#1a2e35;border:1px solid rgba(46,138,153,.25);border-radius:1.5rem;max-width:900px;width:100%;margin:1rem;max-height:90vh;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid rgba(46,138,153,.15)">
+                <h3 style="font-size:1.25rem;font-weight:700;color:#f0e8cc">{{ $quickViewProduct->title }}</h3>
+                <button wire:click="closeQuickView" style="background:transparent;border:none;color:rgba(240,232,204,.5);cursor:pointer">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            
-            <!-- Modal Content -->
-            <div class="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Product Images -->
+            <div style="padding:1.5rem;overflow-y:auto;max-height:calc(90vh - 80px)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <div class="aspect-square rounded-xl overflow-hidden bg-gray-100">
+                        <div style="aspect-ratio:1;border-radius:.75rem;overflow:hidden;background:rgba(46,138,153,.08)">
                             <img src="{{ $quickViewProduct->getFirstMediaUrl('images') ?: 'https://via.placeholder.com/600x600?text=No+Image' }}" 
                                  alt="{{ $quickViewProduct->title }}" 
-                                 class="w-full h-full object-cover">
+                                 style="width:100%;height:100%;object-fit:cover">
                         </div>
                     </div>
-                    
-                    <!-- Product Details -->
-                    <div class="space-y-6">
-                        <!-- Price -->
+                    <div style="display:flex;flex-direction:column;gap:1rem">
                         <div>
-                            <div class="text-3xl font-bold text-green-600">
+                            <div style="font-size:1.75rem;font-weight:900;color:#f47c51">
                                 {{ number_format($quickViewProduct->current_bid ?? $quickViewProduct->price) }} ج.م
                             </div>
                             @if ($quickViewProduct->is_auction && $quickViewProduct->current_bid)
-                                <div class="text-sm text-gray-500 mt-1">
+                                <div style="font-size:.8rem;color:rgba(240,232,204,.45);margin-top:.25rem">
                                     أعلى مزايدة: {{ number_format($quickViewProduct->current_bid) }} ج.م
                                 </div>
                             @endif

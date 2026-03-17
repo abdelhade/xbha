@@ -3,24 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>محادثة - Mazadi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: 'Tajawal', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%); }
-    </style>
+    <title>محادثة - مزادي</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
-
-<body class="gradient-bg min-h-screen">
+<body style="font-family:'Noto Kufi Arabic',sans-serif;background:#0f1e23 !important;color:#f0e8cc;min-height:100vh">
     <x-navbar />
 
-    <section class="py-12">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                @livewire('chat-show', ['id' => $userId])
-            </div>
+    <div style="max-width:900px;margin:0 auto;padding:2rem 1rem">
+        <div style="margin-bottom:2rem">
+            <h2 style="font-size:1.75rem;font-weight:900;color:#f0e8cc">المحادثة</h2>
         </div>
-    </section>
+        <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;overflow:hidden">
+            @livewire('chat-show', ['id' => $userId])
+        </div>
+    </div>
+
+    @livewireScripts
 </body>
 </html>

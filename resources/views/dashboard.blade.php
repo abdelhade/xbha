@@ -4,177 +4,155 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>إعلاناتي - mazadi</title>
+    <title>إعلاناتي - مزادي</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body { font-family: 'Tajawal', sans-serif; }
+        *{box-sizing:border-box}
+        body{font-family:'Noto Kufi Arabic',sans-serif;background:#0f1e23;color:#f0e8cc;min-height:100vh}
+        .page-bg{background:#0f1e23;min-height:100vh}
+        .card{background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem}
+        .stat-card{background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.5rem;display:flex;align-items:center;gap:1rem}
+        .stat-icon{width:48px;height:48px;border-radius:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .stat-label{font-size:.8rem;color:rgba(240,232,204,.5);margin-bottom:.25rem}
+        .stat-value{font-size:1.5rem;font-weight:900;color:#f0e8cc}
+        .product-card{background:rgba(26,46,53,.5);border:1px solid rgba(46,138,153,.12);border-radius:1rem;overflow:hidden;transition:all .3s}
+        .product-card:hover{border-color:rgba(46,138,153,.35);transform:translateY(-3px)}
+        .badge-active{background:rgba(46,138,153,.2);color:#3aa0b0;padding:.2rem .6rem;border-radius:100px;font-size:.72rem;font-weight:700}
+        .badge-draft{background:rgba(240,232,204,.08);color:rgba(240,232,204,.5);padding:.2rem .6rem;border-radius:100px;font-size:.72rem;font-weight:700}
+        .btn-teal{background:#2e8a99;color:#fff;padding:.5rem 1rem;border-radius:.6rem;font-size:.82rem;font-weight:700;text-decoration:none;transition:all .2s;display:inline-block}
+        .btn-teal:hover{background:#3aa0b0}
+        .btn-coral{background:#f47c51;color:#fff;padding:.75rem 1.5rem;border-radius:.75rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .2s}
+        .btn-coral:hover{background:#c95f3a}
+        .btn-danger{background:rgba(244,124,81,.1);color:#f47c51;padding:.5rem .75rem;border-radius:.6rem;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+        .btn-danger:hover{background:rgba(244,124,81,.2)}
+        .page-title{font-size:1.75rem;font-weight:900;color:#f0e8cc}
+        .page-sub{font-size:.875rem;color:rgba(240,232,204,.5);margin-top:.25rem}
+        .section-head{padding:1.25rem 1.5rem;border-bottom:1px solid rgba(46,138,153,.12)}
+        .section-head h3{font-size:1rem;font-weight:700;color:#f0e8cc}
+        .empty-state{text-align:center;padding:4rem 2rem}
+        .empty-state svg{color:rgba(46,138,153,.3);margin:0 auto 1.5rem}
+        .empty-state h3{font-size:1.1rem;font-weight:700;color:rgba(240,232,204,.6);margin-bottom:.5rem}
+        .empty-state p{font-size:.875rem;color:rgba(240,232,204,.35);margin-bottom:1.5rem}
     </style>
 </head>
-<body class="bg-gray-50" dir="rtl">
-    
+<body class="page-bg">
     <x-navbar subtitle="إعلاناتي" />
 
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8">
-        <!-- Page Header -->
-        <div class="flex items-center justify-between mb-8">
+    <div style="max-width:1200px;margin:0 auto;padding:2rem 1.5rem">
+        <!-- Header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
             <div>
-                <h2 class="text-3xl font-bold text-gray-900">إعلاناتي</h2>
-                <p class="text-gray-600 mt-1">إدارة جميع إعلاناتك من مكان واحد</p>
+                <h2 class="page-title">إعلاناتي</h2>
+                <p class="page-sub">إدارة جميع إعلاناتك من مكان واحد</p>
             </div>
-            <a href="/products/create" class="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition shadow-lg">
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg>
+            <a href="/products/create" class="btn-coral">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
                 إضافة إعلان جديد
             </a>
         </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="text-sm font-medium text-gray-600">إجمالي الإعلانات</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ $stats['total'] }}</p>
-                    </div>
+        <!-- Stats -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem">
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(46,138,153,.15)">
+                    <svg width="22" height="22" fill="none" stroke="#2e8a99" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">إجمالي الإعلانات</p>
+                    <p class="stat-value">{{ $stats['total'] }}</p>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="text-sm font-medium text-gray-600">إعلانات نشطة</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ $stats['active'] }}</p>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(46,138,153,.15)">
+                    <svg width="22" height="22" fill="none" stroke="#3aa0b0" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">إعلانات نشطة</p>
+                    <p class="stat-value">{{ $stats['active'] }}</p>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="text-sm font-medium text-gray-600">إجمالي المشاهدات</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['views']) }}</p>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(244,124,81,.1)">
+                    <svg width="22" height="22" fill="none" stroke="#f47c51" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">إجمالي المشاهدات</p>
+                    <p class="stat-value">{{ number_format($stats['views']) }}</p>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="text-sm font-medium text-gray-600">قيمة الإعلانات</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['revenue']) }} رس</p>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(244,124,81,.1)">
+                    <svg width="22" height="22" fill="none" stroke="#c95f3a" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">قيمة الإعلانات</p>
+                    <p class="stat-value">{{ number_format($stats['revenue']) }} ج.م</p>
                 </div>
             </div>
         </div>
 
-        <!-- Products Grid -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div class="p-6 border-b border-gray-100">
-                <h3 class="text-lg font-semibold text-gray-900">إعلاناتي الحديثة</h3>
+        <!-- Products -->
+        <div class="card">
+            <div class="section-head">
+                <h3>إعلاناتي الحديثة</h3>
             </div>
-            
-            <div class="p-6">
+            <div style="padding:1.5rem">
                 @if($products->count() > 0)
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem">
                         @foreach($products->take(6) as $product)
-                            <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition">
-                                <div class="aspect-square bg-gray-200 relative">
-                                    <div class="absolute top-3 right-3 {{ $product->status ? 'bg-green-500' : 'bg-gray-500' }} text-white px-2 py-1 rounded-full text-xs font-semibold">
-                                        {{ $product->status ? 'نشط' : 'مسودة' }}
+                            <div class="product-card">
+                                <div style="position:relative;aspect-ratio:4/3;background:rgba(46,138,153,.08)">
+                                    <div style="position:absolute;top:.75rem;right:.75rem;z-index:1">
+                                        @if($product->status)
+                                            <span class="badge-active">نشط</span>
+                                        @else
+                                            <span class="badge-draft">مسودة</span>
+                                        @endif
                                     </div>
                                     @if($product->getFirstMediaUrl('images'))
-                                        <img src="{{ $product->getFirstMediaUrl('images') }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
+                                        <img src="{{ $product->getFirstMediaUrl('images') }}" alt="{{ $product->title }}" style="width:100%;height:100%;object-fit:cover">
                                     @else
-                                        <div class="absolute inset-0 flex items-center justify-center text-gray-400">
-                                            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                            </svg>
+                                        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(46,138,153,.3)">
+                                            <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                         </div>
                                     @endif
                                 </div>
-                                <div class="p-4">
-                                    <h4 class="font-semibold text-gray-900 mb-2">{{ Str::limit($product->title, 30) }}</h4>
-                                    <p class="text-gray-600 text-sm mb-3">{{ $product->category->name }} - 
-                                        @switch($product->condition)
-                                            @case('new') جديد @break
-                                            @case('like_new') شبه جديد @break
-                                            @case('good') جيد @break
-                                            @case('fair') مقبول @break
-                                            @case('poor') يحتاج إصلاح @break
-                                        @endswitch
-                                    </p>
-                                    <div class="flex items-center justify-between mb-3">
-                                        <span class="text-xl font-bold text-purple-600">{{ number_format($product->price) }} رس</span>
-                                        <span class="text-sm text-gray-500">{{ $product->views_count }} مشاهدة</span>
+                                <div style="padding:1rem">
+                                    <h4 style="font-weight:700;font-size:.9rem;margin-bottom:.4rem;color:#f0e8cc">{{ Str::limit($product->title, 30) }}</h4>
+                                    <p style="font-size:.78rem;color:rgba(240,232,204,.45);margin-bottom:.75rem">{{ $product->category->name }}</p>
+                                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+                                        <span style="font-size:1.1rem;font-weight:900;color:#f47c51">{{ number_format($product->price) }} ج.م</span>
+                                        <span style="font-size:.75rem;color:rgba(240,232,204,.35)">{{ $product->views_count }} مشاهدة</span>
                                     </div>
-                                    <div class="flex gap-2">
-                                        <a href="{{ route('products.edit', $product->slug) }}" class="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition text-center">
-                                            تعديل
-                                        </a>
+                                    <div style="display:flex;gap:.5rem">
+                                        <a href="{{ route('products.edit', $product->slug) }}" class="btn-teal" style="flex:1;text-align:center">تعديل</a>
                                         <form action="{{ route('products.destroy', $product->slug) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من حذف هذا الإعلان؟')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-sm hover:bg-red-200 transition">
-                                                حذف
-                                            </button>
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn-danger">حذف</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    
                     @if($products->count() > 6)
-                        <div class="mt-6 text-center">
-                            <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+                        <div style="margin-top:1.5rem;text-align:center">
+                            <a href="#" style="display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;background:rgba(46,138,153,.1);border:1px solid rgba(46,138,153,.2);color:#3aa0b0;border-radius:.75rem;font-weight:600;text-decoration:none;transition:all .2s">
                                 عرض جميع الإعلانات ({{ $products->count() }})
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                                </svg>
                             </a>
                         </div>
                     @endif
                 @else
-                    <div class="text-center py-12">
-                        <svg class="w-24 h-24 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-                        </svg>
-                        <h3 class="text-xl font-semibold text-gray-600 mb-2">لا توجد إعلانات بعد</h3>
-                        <p class="text-gray-500 mb-6">ابدأ بإضافة أول إعلان لك</p>
-                        <a href="{{ route('products.create') }}" class="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
+                    <div class="empty-state">
+                        <svg width="80" height="80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+                        <h3>لا توجد إعلانات بعد</h3>
+                        <p>ابدأ بإضافة أول إعلان لك</p>
+                        <a href="{{ route('products.create') }}" class="btn-coral" style="display:inline-flex">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
                             إضافة إعلان جديد
                         </a>
                     </div>
@@ -182,6 +160,6 @@
             </div>
         </div>
     </div>
-
+    @livewireScripts
 </body>
 </html>

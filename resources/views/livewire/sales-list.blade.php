@@ -1,71 +1,73 @@
 <div>
-    <div class="mb-6 flex gap-3">
-        <button wire:click="$set('statusFilter', 'all')" 
-                class="px-4 py-2 rounded-lg transition {{ $statusFilter === 'all' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100' }}">
-            الكل
-        </button>
-        <button wire:click="$set('statusFilter', 'pending')" 
-                class="px-4 py-2 rounded-lg transition {{ $statusFilter === 'pending' ? 'bg-yellow-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100' }}">
-            قيد الانتظار
-        </button>
-        <button wire:click="$set('statusFilter', 'completed')" 
-                class="px-4 py-2 rounded-lg transition {{ $statusFilter === 'completed' ? 'bg-green-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100' }}">
-            مكتمل
-        </button>
-        <button wire:click="$set('statusFilter', 'cancelled')" 
-                class="px-4 py-2 rounded-lg transition {{ $statusFilter === 'cancelled' ? 'bg-red-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100' }}">
-            ملغي
-        </button>
+    <!-- Status Filters -->
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+        @foreach(['all' => 'الكل', 'pending' => 'قيد الانتظار', 'completed' => 'مكتمل', 'cancelled' => 'ملغي'] as $val => $label)
+            <button wire:click="$set('statusFilter', '{{ $val }}')"
+                style="padding:.5rem 1.1rem;border-radius:100px;font-family:'Noto Kufi Arabic',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;border:1px solid;
+                    {{ $statusFilter === $val
+                        ? 'background:#2e8a99;color:#fff;border-color:#2e8a99'
+                        : 'background:transparent;color:rgba(240,232,204,.55);border-color:rgba(46,138,153,.2)' }}">
+                {{ $label }}
+            </button>
+        @endforeach
     </div>
 
     @if($orders->count() > 0)
-        <div class="space-y-4">
+        <div style="display:flex;flex-direction:column;gap:1rem">
             @foreach($orders as $order)
-                <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition">
-                    <div class="flex justify-between items-start mb-4">
+                <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.25rem;transition:all .3s"
+                     onmouseover="this.style.borderColor='rgba(46,138,153,.35)'" onmouseout="this.style.borderColor='rgba(46,138,153,.15)'">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem">
                         <div>
-                            <h3 class="text-xl font-semibold text-gray-900">طلب #{{ $order->id }}</h3>
-                            <p class="text-gray-500 text-sm">{{ $order->created_at->diffForHumans() }}</p>
+                            <h3 style="font-size:1rem;font-weight:700;color:#f0e8cc;margin-bottom:.2rem">طلب #{{ $order->id }}</h3>
+                            <p style="font-size:.8rem;color:rgba(240,232,204,.4)">{{ $order->created_at->diffForHumans() }}</p>
                         </div>
-                        <span class="px-4 py-2 rounded-full text-sm font-medium
-                            @if($order->status === 'pending') bg-yellow-100 text-yellow-800
-                            @elseif($order->status === 'completed') bg-green-100 text-green-800
-                            @elseif($order->status === 'cancelled') bg-red-100 text-red-800
-                            @else bg-blue-100 text-blue-800 @endif">
+                        <span style="padding:.3rem .85rem;border-radius:100px;font-size:.78rem;font-weight:700;
+                            @if($order->status === 'pending') background:rgba(251,191,36,.12);color:#fbbf24
+                            @elseif($order->status === 'completed') background:rgba(46,138,153,.15);color:#3aa0b0
+                            @elseif($order->status === 'cancelled') background:rgba(244,124,81,.12);color:#f47c51
+                            @else background:rgba(46,138,153,.1);color:#2e8a99 @endif">
                             @if($order->status === 'pending') قيد الانتظار
                             @elseif($order->status === 'completed') مكتمل
                             @elseif($order->status === 'cancelled') ملغي
                             @else {{ $order->status }} @endif
                         </span>
                     </div>
-                    
-                    <div class="border-t pt-4">
-                        <p class="text-gray-700 mb-2"><strong>المنتج:</strong> {{ $order->product->title }}</p>
-                        <p class="text-gray-700 mb-2"><strong>السعر:</strong> {{ number_format($order->total_amount) }} ريال</p>
-                        <p class="text-gray-700 mb-2"><strong>المشتري:</strong> {{ $order->buyer_name }}</p>
-                        <p class="text-gray-700"><strong>الهاتف:</strong> {{ $order->buyer_phone }}</p>
+
+                    <div style="border-top:1px solid rgba(46,138,153,.1);padding-top:1rem;display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem">
+                        <p style="font-size:.875rem;color:rgba(240,232,204,.65)">
+                            <span style="color:rgba(240,232,204,.4)">المنتج: </span>{{ $order->product->title }}
+                        </p>
+                        <p style="font-size:.875rem;color:rgba(240,232,204,.65)">
+                            <span style="color:rgba(240,232,204,.4)">السعر: </span>
+                            <span style="color:#f47c51;font-weight:700">{{ number_format($order->total_amount) }} ج.م</span>
+                        </p>
+                        <p style="font-size:.875rem;color:rgba(240,232,204,.65)">
+                            <span style="color:rgba(240,232,204,.4)">المشتري: </span>{{ $order->buyer_name }}
+                        </p>
+                        <p style="font-size:.875rem;color:rgba(240,232,204,.65)">
+                            <span style="color:rgba(240,232,204,.4)">الهاتف: </span>{{ $order->buyer_phone }}
+                        </p>
                     </div>
 
-                    <div class="mt-4">
-                        <a href="{{ route('orders.show', $order) }}" 
-                           class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition inline-block">
-                            عرض التفاصيل
-                        </a>
-                    </div>
+                    <a href="{{ route('orders.show', $order) }}"
+                       style="display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;background:rgba(46,138,153,.15);border:1px solid rgba(46,138,153,.3);color:#3aa0b0;border-radius:.65rem;font-size:.82rem;font-weight:700;text-decoration:none;transition:all .2s"
+                       onmouseover="this.style.background='rgba(46,138,153,.25)'" onmouseout="this.style.background='rgba(46,138,153,.15)'">
+                        عرض التفاصيل
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
             @endforeach
         </div>
 
-        <div class="mt-8">
-            {{ $orders->links() }}
-        </div>
+        <div style="margin-top:2rem">{{ $orders->links() }}</div>
     @else
-        <div class="text-center bg-white rounded-xl p-12 shadow-lg">
-            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        <div style="text-align:center;background:rgba(46,138,153,.04);border:1px solid rgba(46,138,153,.1);border-radius:1.5rem;padding:4rem 2rem">
+            <svg style="width:5rem;height:5rem;margin:0 auto 1rem;color:rgba(46,138,153,.25)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
             </svg>
-            <h3 class="text-2xl font-bold text-gray-900 mb-2">لا توجد مبيعات</h3>
-            <p class="text-gray-600">لم يتم طلب أي من منتجاتك حتى الآن</p>
+            <h3 style="font-size:1.25rem;font-weight:900;color:#f0e8cc;margin-bottom:.5rem">لا توجد مبيعات</h3>
+            <p style="color:rgba(240,232,204,.45)">لم يتم طلب أي من منتجاتك حتى الآن</p>
         </div>
     @endif
 </div>

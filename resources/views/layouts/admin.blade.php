@@ -8,47 +8,39 @@
 
     <title>مزادي - Admin</title>
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://unpkg.com/alpinejs@3.12.0/dist/cdn.min.js"></script>
 
     <style>
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f3f4f6;
-            /* Light gray background */
-            color: #1f2937;
-            /* Dark text */
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            background-color: #f5f0e6;
+            color: #1a2e35;
         }
-
         .sidebar {
-            background-color: #111025;
-            /* Dark sidebar */
-            color: #fff;
+            background-color: #0f1e23;
+            color: #f0e8cc;
         }
-
         .sidebar-link {
             display: flex;
             align-items: center;
             padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.5rem;
-            color: #d1d5db;
+            margin-bottom: 0.25rem;
+            border-radius: 0.75rem;
+            color: rgba(240,232,204,.6);
             transition: all 0.2s;
+            text-decoration: none;
+            font-size: .9rem;
         }
-
-        .sidebar-link:hover,
-        .sidebar-link.active {
-            background: rgba(124, 58, 237, 0.1);
-            /* Purple tint */
-            color: #a78bfa;
-            /* Light purple */
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(46,138,153,.15);
+            color: #3aa0b0;
         }
-
         .glass-panel {
             background: white;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,.08);
+            border: 1px solid rgba(46,138,153,.12);
             border-radius: 1rem;
         }
     </style>

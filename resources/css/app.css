@@ -2,12 +2,140 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        --teal:        #2e8a99;
+        --teal-light:  #3aa0b0;
+        --teal-dark:   #1f6370;
+        --cream:       #f0e8cc;
+        --cream-dim:   #e8ddb8;
+        --coral:       #f47c51;
+        --coral-dark:  #c95f3a;
+        --surface:     #1a2e35;
+        --surface-deep:#0f1e23;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Noto Kufi Arabic', sans-serif;
+        background-color: #0f1e23 !important;
+        color: #f0e8cc !important;
+    }
+
+    /* Mobile bottom nav spacing */
+    @media (max-width: 767px) {
+        body { padding-bottom: calc(5rem + env(safe-area-inset-bottom)) !important; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #1a2e35; }
+    ::-webkit-scrollbar-thumb { background: #2e8a99; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3aa0b0; }
+}
+
 @layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Palette utilities */
+    .bg-surface       { background-color: #1a2e35; }
+    .bg-surface-deep  { background-color: #0f1e23; }
+    .bg-cream         { background-color: #f0e8cc; }
+    .text-teal        { color: #2e8a99; }
+    .text-teal-light  { color: #3aa0b0; }
+    .text-coral       { color: #f47c51; }
+    .text-coral-dark  { color: #c95f3a; }
+    .border-teal      { border-color: #2e8a99; }
+    .border-coral     { border-color: #f47c51; }
+}
+
+@layer components {
+    /* ── Buttons ── */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300;
+    }
+    .btn-primary {
+        background-color: #f47c51;
+        color: #fff;
+        @apply shadow-md hover:shadow-lg;
+    }
+    .btn-primary:hover { background-color: #c95f3a; transform: translateY(-2px); }
+
+    .btn-secondary {
+        background-color: #2e8a99;
+        color: #fff;
+    }
+    .btn-secondary:hover { background-color: #1f6370; transform: translateY(-2px); }
+
+    .btn-outline {
+        border: 1px solid #2e8a99;
+        color: #2e8a99;
+        background: transparent;
+    }
+    .btn-outline:hover { background-color: #2e8a99; color: #fff; }
+
+    /* ── Cards ── */
+    .card {
+        background: #fff;
+        border: 1px solid rgba(46,138,153,.15);
+        border-radius: 1rem;
+        @apply shadow-sm transition-all duration-300;
+    }
+    .card:hover { border-color: rgba(46,138,153,.35); @apply shadow-md; transform: translateY(-3px); }
+
+    /* ── Badges ── */
+    .badge-teal {
+        background: rgba(46,138,153,.12);
+        color: #2e8a99;
+        @apply text-xs font-semibold px-2.5 py-1 rounded-full;
+    }
+    .badge-coral {
+        background: rgba(244,124,81,.12);
+        color: #c95f3a;
+        @apply text-xs font-semibold px-2.5 py-1 rounded-full;
+    }
+
+    /* ── Form inputs ── */
+    .input {
+        @apply w-full px-4 py-2.5 rounded-xl text-sm transition-all duration-200;
+        background: #fff;
+        border: 1px solid rgba(46,138,153,.25);
+        color: #1a2e35;
+    }
+    .input:focus {
+        outline: none;
+        border-color: #2e8a99;
+        box-shadow: 0 0 0 3px rgba(46,138,153,.15);
+    }
+
+    /* ── Nav ── */
+    .app-nav {
+        background: #fff;
+        border-bottom: 1px solid rgba(46,138,153,.12);
+        @apply shadow-sm;
+    }
+    .nav-link {
+        color: rgba(26,46,53,.6);
+        @apply text-sm font-medium transition-colors duration-200;
+    }
+    .nav-link:hover, .nav-link.active { color: #2e8a99; }
+
+    /* ── Page header ── */
+    .page-header {
+        background: linear-gradient(135deg, #1a2e35 0%, #2e8a99 100%);
+        color: #f0e8cc;
+        @apply px-8 py-10 rounded-2xl mb-8;
+    }
+
+    /* ── Section title ── */
+    .section-heading {
+        @apply text-2xl font-bold mb-1;
+        color: #1a2e35;
+    }
+    .section-sub {
+        @apply text-sm;
+        color: rgba(26,46,53,.5);
+    }
 }

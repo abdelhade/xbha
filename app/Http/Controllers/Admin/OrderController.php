@@ -10,20 +10,20 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['buyer', 'items.product'])->latest()->paginate(10);
+        $orders = Order::with(['buyer', 'product', 'seller'])->latest()->paginate(10);
         return view('admin.orders.index', compact('orders'));
     }
 
     public function show(Order $order)
     {
-        $order->load(['buyer', 'items.product', 'items.seller']);
+        $order->load(['buyer', 'product', 'seller']);
         return view('admin.orders.show', compact('order'));
     }
 
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|in:pending,paid,shipped,completed,cancelled'
+            'status' => 'required|in:pending,confirmed,completed,cancelled'
         ]);
 
         $order->update(['status' => $request->status]);

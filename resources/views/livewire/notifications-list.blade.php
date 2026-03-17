@@ -1,76 +1,48 @@
-<div>
+﻿<div>
     @if (session()->has('message'))
-        <div class="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+        <div style="margin-bottom:1rem;padding:1rem;background:rgba(46,138,153,.15);border:1px solid rgba(46,138,153,.3);color:#3aa0b0;border-radius:.75rem">
             {{ session('message') }}
         </div>
     @endif
 
-    <!-- Admin Pending Approvals Section -->
     @if (auth()->user()->hasRole('admin'))
-        @php
-            $pendingApprovals = \App\Models\Product::where('status', 0)->orderBy('created_at', 'desc')->take(5)->get();
-        @endphp
+        @php $pendingApprovals = \App\Models\Product::where('status', 0)->orderBy('created_at', 'desc')->take(5)->get(); @endphp
         @if ($pendingApprovals->count() > 0)
-            <div class="mb-8 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-bold text-yellow-800 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-                            </path>
-                        </svg>
+            <div style="margin-bottom:2rem;background:rgba(244,124,81,.06);border:1px solid rgba(244,124,81,.2);border-radius:1.25rem;padding:1.5rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+                    <h3 style="font-size:1rem;font-weight:700;color:#f47c51;display:flex;align-items:center;gap:.5rem">
+                        <svg style="width:1.1rem;height:1.1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         طلبات الموافقة المعلقة
                     </h3>
-                    <a href="{{ route('admin.products.approvals') }}" 
-                       class="text-sm bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition">
+                    <a href="{{ route('admin.products.approvals') }}" style="font-size:.8rem;background:#f47c51;color:#fff;padding:.4rem 1rem;border-radius:100px;text-decoration:none">
                         عرض الكل ({{ \App\Models\Product::where('status', 0)->count() }})
                     </a>
                 </div>
-                <div class="space-y-3">
+                <div style="display:flex;flex-direction:column;gap:.75rem">
                     @foreach ($pendingApprovals as $product)
-                        <div class="bg-white rounded-lg p-4 shadow-sm border border-yellow-200">
-                            <div class="flex items-start gap-4">
-                                @if ($product->getMedia('images')->count() > 0)
-                                    <img src="{{ $product->getMedia('images')->first()->getUrl() }}" 
-                                         class="w-16 h-16 object-cover rounded-lg border border-gray-200">
-                                @else
-                                    <div class="w-16 h-16 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
-                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                        </svg>
-                                    </div>
-                                @endif
-                                <div class="flex-1">
-                                    <h4 class="font-semibold text-gray-900 mb-1">{{ $product->title }}</h4>
-                                    <p class="text-sm text-gray-600 mb-2">{{ Str::limit($product->description, 100) }}</p>
-                                    <div class="flex items-center gap-4 text-sm">
-                                        <span class="text-gray-500">السعر: {{ number_format($product->price) }} ج.م</span>
-                                        <span class="text-gray-500">•</span>
-                                        <span class="text-gray-500">{{ $product->created_at->diffForHumans() }}</span>
-                                    </div>
+                        <div style="background:rgba(15,30,35,.5);border:1px solid rgba(244,124,81,.15);border-radius:1rem;padding:1rem;display:flex;align-items:start;gap:1rem">
+                            @if ($product->getMedia('images')->count() > 0)
+                                <img src="{{ $product->getMedia('images')->first()->getUrl() }}" style="width:4rem;height:4rem;object-fit:cover;border-radius:.75rem;border:1px solid rgba(46,138,153,.2)">
+                            @else
+                                <div style="width:4rem;height:4rem;background:rgba(46,138,153,.08);border-radius:.75rem;display:flex;align-items:center;justify-content:center">
+                                    <svg style="width:2rem;height:2rem;color:rgba(46,138,153,.3)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                                 </div>
-                                <div class="flex gap-2">
-                                    <a href="{{ route('admin.products.edit', $product) }}" 
-                                       class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                            </path>
-                                        </svg>
-                                    </a>
-                                    <form action="{{ route('admin.products.approve', $product) }}" method="POST" class="inline">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition"
-                                                onclick="return confirm('هل أنت متأكد من الموافقة على هذا المنتج؟')">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </div>
+                            @endif
+                            <div style="flex:1">
+                                <h4 style="font-weight:600;color:#f0e8cc;margin-bottom:.25rem">{{ $product->title }}</h4>
+                                <p style="font-size:.8rem;color:rgba(240,232,204,.5);margin-bottom:.5rem">{{ Str::limit($product->description, 100) }}</p>
+                                <span style="font-size:.8rem;color:rgba(240,232,204,.4)">{{ number_format($product->price) }} ج.م  {{ $product->created_at->diffForHumans() }}</span>
+                            </div>
+                            <div style="display:flex;gap:.5rem">
+                                <a href="{{ route('admin.products.edit', $product) }}" style="padding:.4rem;color:#3aa0b0;border-radius:.5rem;text-decoration:none">
+                                    <svg style="width:1rem;height:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                </a>
+                                <form action="{{ route('admin.products.approve', $product) }}" method="POST" style="display:inline">
+                                    @csrf
+                                    <button type="submit" style="padding:.4rem;color:#3aa0b0;background:transparent;border:none;cursor:pointer" onclick="return confirm('هل أنت متأكد')">
+                                        <svg style="width:1rem;height:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     @endforeach
@@ -79,60 +51,47 @@
         @endif
     @endif
 
-    <div class="flex justify-between items-center mb-8">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:1.5rem">
         @if ($notifications->where('read_at', null)->count() > 0)
-            <button wire:click="markAllAsRead"
-                class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+            <button wire:click="markAllAsRead" style="padding:.5rem 1.25rem;background:rgba(46,138,153,.15);border:1px solid rgba(46,138,153,.3);color:#3aa0b0;border-radius:100px;font-size:.875rem;font-weight:600;cursor:pointer">
                 تحديد الكل كمقروء
             </button>
         @endif
     </div>
 
     @if ($notifications->count() > 0)
-        <div class="space-y-3">
+        <div style="display:flex;flex-direction:column;gap:.75rem">
             @foreach ($notifications as $notification)
-                <button wire:click="markAsRead('{{ $notification->id }}')"
-                    class="block w-full text-right bg-white rounded-xl p-6 shadow hover:shadow-lg transition {{ $notification->read_at ? 'opacity-75' : 'border-r-4 border-purple-600' }}">
-                    <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                            </svg>
+                <button wire:click="markAsRead('{{ $notification->id }}')" style="display:block;width:100%;text-align:right;background:rgba(46,138,153,.05);border:1px solid {{ $notification->read_at ? 'rgba(46,138,153,.08)' : 'rgba(46,138,153,.25)' }};border-right:{{ $notification->read_at ? '1px solid rgba(46,138,153,.08)' : '3px solid #2e8a99' }};border-radius:1rem;padding:1.25rem;cursor:pointer;transition:all .2s;opacity:{{ $notification->read_at ? '.6' : '1' }}" onmouseover="this.style.background='rgba(46,138,153,.1)'" onmouseout="this.style.background='rgba(46,138,153,.05)'">
+                    <div style="display:flex;align-items:start;gap:1rem">
+                        <div style="width:2.75rem;height:2.75rem;background:rgba(46,138,153,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                            <svg style="width:1.25rem;height:1.25rem;color:#3aa0b0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </div>
-                        <div class="flex-1">
-                            <p class="text-gray-900 font-medium mb-1">{{ $notification->data['message'] }}</p>
-                            <div class="flex items-center gap-4 text-sm text-gray-600">
+                        <div style="flex:1">
+                            <p style="color:#f0e8cc;font-weight:500;margin-bottom:.25rem">{{ $notification->data['message'] }}</p>
+                            <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:rgba(240,232,204,.45)">
                                 @if (isset($notification->data['order_number']))
                                     <span>رقم الطلب: {{ $notification->data['order_number'] }}</span>
                                 @elseif(isset($notification->data['amount']))
                                     <span>المبلغ: {{ number_format($notification->data['amount']) }} ج.م</span>
                                 @endif
-                                <span>•</span>
+                                <span></span>
                                 <span>{{ $notification->created_at->diffForHumans() }}</span>
                             </div>
                         </div>
                         @if (!$notification->read_at)
-                            <div class="w-3 h-3 bg-purple-600 rounded-full"></div>
+                            <div style="width:.6rem;height:.6rem;background:#2e8a99;border-radius:50%;flex-shrink:0;margin-top:.3rem"></div>
                         @endif
                     </div>
                 </button>
             @endforeach
         </div>
-
-        <div class="mt-8">
-            {{ $notifications->links() }}
-        </div>
+        <div class="mt-8">{{ $notifications->links() }}</div>
     @else
-        <div class="text-center bg-white rounded-xl p-12 shadow-lg">
-            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
-                </path>
-            </svg>
-            <h3 class="text-2xl font-bold text-gray-900 mb-2">لا توجد إشعارات</h3>
-            <p class="text-gray-600">ليس لديك أي إشعارات حالياً</p>
+        <div style="text-align:center;background:rgba(46,138,153,.04);border:1px solid rgba(46,138,153,.1);border-radius:1.5rem;padding:4rem 2rem">
+            <svg style="width:5rem;height:5rem;margin:0 auto 1rem;color:rgba(46,138,153,.2)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <h3 style="font-size:1.5rem;font-weight:900;color:#f0e8cc;margin-bottom:.5rem">لا توجد إشعارات</h3>
+            <p style="color:rgba(240,232,204,.5)">ليس لديك أي إشعارات حاليا</p>
         </div>
     @endif
 </div>

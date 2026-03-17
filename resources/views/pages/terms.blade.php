@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>الشروط والأحكام - mazadi</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body { font-family: 'Tajawal', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%); }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; background: #0f1e23; color: #f0e8cc; min-height: 100vh; }
     </style>
 </head>
-<body class="gradient-bg min-h-screen">
+<body style="min-height:100vh">
     <x-navbar />
 
     <section class="py-12">

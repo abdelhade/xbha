@@ -1,56 +1,33 @@
 <div>
-    <!-- Product Images -->
-    <div class="elegant-card rounded-3xl shadow-xl p-8 mb-8">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    <!-- Images -->
+    <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem">
+        <h3 style="font-size:1rem;font-weight:700;color:#f0e8cc;margin-bottom:1.25rem">صور المنتج</h3>
+        <input type="file" wire:model="images" multiple accept="image/*" class="hidden" id="images">
+        <label for="images" style="cursor:pointer;display:block">
+            <div style="border:2px dashed rgba(46,138,153,.3);border-radius:1rem;padding:2.5rem;text-align:center;transition:border-color .2s"
+                 onmouseover="this.style.borderColor='rgba(46,138,153,.6)'" onmouseout="this.style.borderColor='rgba(46,138,153,.3)'">
+                <svg style="width:3rem;height:3rem;margin:0 auto .75rem;color:rgba(46,138,153,.4)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
+                <p style="color:rgba(240,232,204,.6);font-size:.9rem;margin-bottom:.75rem">اضغط لإضافة الصور (حد أقصى 5 صور)</p>
+                <span style="display:inline-block;padding:.5rem 1.25rem;background:#2e8a99;color:#fff;border-radius:.65rem;font-size:.85rem;font-weight:700">اختر الصور</span>
             </div>
-            <div>
-                <h3 class="text-xl font-bold text-gray-900">صور المنتج</h3>
-                <p class="text-gray-600 text-sm">أضف صور واضحة لمنتجك (حد أقصى 5 صور)</p>
-            </div>
-        </div>
-
-        <div>
-            <input type="file" wire:model="images" multiple accept="image/*" class="hidden" id="images">
-            <label for="images" class="cursor-pointer">
-                <div class="rounded-2xl p-8 text-center border-2 border-dashed border-gray-300 hover:border-purple-500 transition-colors">
-                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <h4 class="text-lg font-semibold text-gray-700 mb-2">اضغط لإضافة الصور</h4>
-                    <span class="mt-4 inline-block px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-                        اختر الصور
-                    </span>
-                </div>
-            </label>
-        </div>
-
-        @error('images.*') 
-            <p class="mt-2 text-sm text-red-600">{{ $message }}</p> 
-        @enderror
-
+        </label>
+        @error('images.*') <p style="margin-top:.5rem;font-size:.8rem;color:#f47c51">{{ $message }}</p> @enderror
         @if($images)
-            <div class="mt-6">
-                <p class="text-sm text-gray-600 mb-3">تم اختيار {{ count($images) }} صورة</p>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div style="margin-top:1.25rem">
+                <p style="font-size:.8rem;color:rgba(240,232,204,.5);margin-bottom:.75rem">تم اختيار {{ count($images) }} صورة</p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:.75rem">
                     @foreach($images as $index => $image)
-                        <div class="relative group">
-                            <div class="w-full h-32 bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg shadow-md flex flex-col items-center justify-center p-3">
-                                <svg class="w-12 h-12 text-purple-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        <div style="position:relative">
+                            <div style="background:rgba(46,138,153,.1);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;padding:.75rem;text-align:center">
+                                <svg style="width:2rem;height:2rem;margin:0 auto .4rem;color:#2e8a99" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                <p class="text-xs text-center text-gray-700 font-medium">{{ $image->getClientOriginalName() }}</p>
+                                <p style="font-size:.7rem;color:rgba(240,232,204,.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ $image->getClientOriginalName() }}</p>
                             </div>
-                            <button type="button" 
-                                    wire:click="removeImage({{ $index }})"
-                                    class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg hover:bg-red-600 transition">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
+                            <button type="button" wire:click="removeImage({{ $index }})"
+                                style="position:absolute;top:-.4rem;right:-.4rem;width:1.4rem;height:1.4rem;background:#f47c51;color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center">✕</button>
                         </div>
                     @endforeach
                 </div>
@@ -58,156 +35,133 @@
         @endif
     </div>
 
-    <!-- Basic Information -->
-    <div class="elegant-card rounded-3xl shadow-xl p-8 mb-8">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-            </div>
+    <!-- Basic Info -->
+    <div style="background:rgba(26,46,53,.7);border:1px solid rgba(46,138,153,.15);border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem">
+        <h3 style="font-size:1rem;font-weight:700;color:#f0e8cc;margin-bottom:1.25rem">المعلومات الأساسية</h3>
+        <div style="display:grid;grid-template-columns:1fr;gap:1rem">
             <div>
-                <h3 class="text-xl font-bold text-gray-900">المعلومات الأساسية</h3>
-                <p class="text-gray-600 text-sm">أدخل تفاصيل المنتج</p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 mb-2">عنوان الإعلان *</label>
-                <input wire:model="title" 
-                       type="text" 
-                       placeholder="مثال: آيفون 14 برو ماكس 256 جيجا"
-                       class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                @error('title') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">عنوان الإعلان *</label>
+                <input wire:model="title" type="text" placeholder="مثال: آيفون 14 برو ماكس 256 جيجا"
+                    style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;transition:all .3s"
+                    onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                @error('title') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">التصنيف *</label>
-                <div class="flex gap-2">
-                    <select wire:model="category_id" class="flex-1 px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">التصنيف *</label>
+                <div style="display:flex;gap:.5rem">
+                    <select wire:model="category_id"
+                        style="flex:1;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none">
                         <option value="">اختر التصنيف</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                     @hasrole('admin')
-                    <a href="{{ route('categories.create') }}" target="_blank" class="px-4 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition flex items-center justify-center" title="إضافة تصنيف جديد">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg>
+                    <a href="{{ route('categories.create') }}" target="_blank"
+                        style="padding:.65rem .9rem;background:rgba(46,138,153,.2);border:1px solid rgba(46,138,153,.3);color:#3aa0b0;border-radius:.75rem;text-decoration:none;display:flex;align-items:center">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
                     </a>
                     @endhasrole
                 </div>
-                @error('category_id') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                @error('category_id') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
             </div>
 
-            <div class="md:col-span-2">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" wire:model.live="is_auction" class="w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
-                    <span class="text-sm font-medium text-gray-700">هل تريد جعل هذا المنتج في مزايدة؟</span>
+            <div>
+                <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+                    <input type="checkbox" wire:model.live="is_auction" style="width:1.1rem;height:1.1rem;accent-color:#2e8a99">
+                    <span style="font-size:.875rem;color:rgba(240,232,204,.7)">جعل هذا المنتج في مزايدة</span>
                 </label>
             </div>
 
             @if(!$is_auction)
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">السعر (ريال) *</label>
-                    <input wire:model="price" 
-                           type="number" 
-                           step="0.01"
-                           max="999999999"
-                           placeholder="0.00"
-                           class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                    @error('price') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">السعر (ج.م) *</label>
+                    <input wire:model="price" type="number" step="0.01" placeholder="0.00"
+                        style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;transition:all .3s"
+                        onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                    @error('price') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
                 </div>
             @else
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">سعر البداية (ريال) *</label>
-                    <input wire:model="starting_price" 
-                           type="number" 
-                           step="0.01"
-                           max="999999999"
-                           placeholder="0.00"
-                           class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                    @error('starting_price') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">مدة المزايدة (أيام) *</label>
-                    <select wire:model="auction_days" class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                        <option value="1">1 يوم</option>
-                        <option value="3">3 أيام</option>
-                        <option value="7" selected>7 أيام</option>
-                        <option value="14">14 يوم</option>
-                        <option value="30">30 يوم</option>
-                    </select>
-                    @error('auction_days') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">الحد الأدنى للزيادة (ريال) *</label>
-                    <input wire:model="min_bid_increment" 
-                           type="number" 
-                           step="1"
-                           placeholder="10"
-                           class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                    @error('min_bid_increment') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem">
+                    <div>
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">سعر البداية (ج.م) *</label>
+                        <input wire:model="starting_price" type="number" step="0.01" placeholder="0.00"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none"
+                            onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                        @error('starting_price') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">مدة المزايدة *</label>
+                        <select wire:model="auction_days"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none">
+                            <option value="1">1 يوم</option>
+                            <option value="3">3 أيام</option>
+                            <option value="7" selected>7 أيام</option>
+                            <option value="14">14 يوم</option>
+                            <option value="30">30 يوم</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الحد الأدنى للزيادة *</label>
+                        <input wire:model="min_bid_increment" type="number" step="1" placeholder="10"
+                            style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none"
+                            onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                    </div>
                 </div>
             @endif
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">حالة المنتج *</label>
-                <select wire:model="condition" class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                    <option value="">اختر الحالة</option>
-                    <option value="new">جديد</option>
-                    <option value="like_new">شبه جديد</option>
-                    <option value="good">جيد</option>
-                    <option value="fair">مقبول</option>
-                    <option value="poor">يحتاج إصلاح</option>
-                </select>
-                @error('condition') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem">
+                <div>
+                    <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">حالة المنتج *</label>
+                    <select wire:model="condition"
+                        style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none">
+                        <option value="">اختر الحالة</option>
+                        <option value="new">جديد</option>
+                        <option value="like_new">شبه جديد</option>
+                        <option value="good">جيد</option>
+                        <option value="fair">مقبول</option>
+                        <option value="poor">يحتاج إصلاح</option>
+                    </select>
+                    @error('condition') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">الموقع *</label>
+                    <input wire:model="location" type="text" placeholder="مثال: القاهرة، المعادي"
+                        style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none"
+                        onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'">
+                    @error('location') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
+                </div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">الموقع *</label>
-                <input wire:model="location" 
-                       type="text" 
-                       placeholder="مثال: الرياض، حي النخيل"
-                       class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
-                @error('location') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
-            </div>
-
-            <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 mb-2">وصف المنتج *</label>
-                <textarea wire:model="description" 
-                          rows="5" 
-                          placeholder="اكتب وصفاً مفصلاً عن المنتج، حالته، مميزاته، وأي معلومات مهمة أخرى..."
-                          class="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all resize-none"></textarea>
-                @error('description') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                <label style="display:block;font-size:.78rem;font-weight:600;color:rgba(240,232,204,.5);margin-bottom:.4rem">وصف المنتج *</label>
+                <textarea wire:model="description" rows="5" placeholder="اكتب وصفاً مفصلاً عن المنتج، حالته، مميزاته..."
+                    style="width:100%;padding:.65rem 1rem;background:rgba(15,30,35,.6);border:1px solid rgba(46,138,153,.2);border-radius:.75rem;color:#f0e8cc;font-family:'Noto Kufi Arabic',sans-serif;font-size:.875rem;outline:none;resize:vertical;transition:all .3s"
+                    onfocus="this.style.borderColor='rgba(46,138,153,.5)'" onblur="this.style.borderColor='rgba(46,138,153,.2)'"></textarea>
+                @error('description') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
             </div>
         </div>
     </div>
 
-    <!-- Submit Buttons -->
-    <div class="elegant-card rounded-3xl shadow-xl p-8">
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <button type="button" 
-                    wire:click="save" 
-                    wire:loading.attr="disabled"
-                    class="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg disabled:opacity-50">
-                <span wire:loading.remove wire:target="save">نشر الإعلان</span>
-                <span wire:loading wire:target="save">جاري النشر...</span>
-            </button>
-            
-            <button type="button" 
-                    wire:click="saveDraft" 
-                    wire:loading.attr="disabled"
-                    class="px-8 py-4 bg-gray-500 text-white rounded-xl font-semibold hover:bg-gray-600 transition-all shadow-lg disabled:opacity-50">
-                <span wire:loading.remove wire:target="saveDraft">حفظ كمسودة</span>
-                <span wire:loading wire:target="saveDraft">جاري الحفظ...</span>
-            </button>
-            
-            <a href="{{ route('dashboard') }}" class="px-8 py-4 bg-white text-gray-700 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-all text-center">
-                إلغاء
-            </a>
-        </div>
+    <!-- Actions -->
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <button type="button" wire:click="save" wire:loading.attr="disabled"
+            style="flex:1;min-width:140px;padding:.75rem 1.5rem;background:#f47c51;color:#fff;border:none;border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s"
+            onmouseover="this.style.background='#c95f3a'" onmouseout="this.style.background='#f47c51'">
+            <span wire:loading.remove wire:target="save">نشر الإعلان</span>
+            <span wire:loading wire:target="save">جاري النشر...</span>
+        </button>
+        <button type="button" wire:click="saveDraft" wire:loading.attr="disabled"
+            style="flex:1;min-width:140px;padding:.75rem 1.5rem;background:rgba(46,138,153,.15);color:#3aa0b0;border:1px solid rgba(46,138,153,.3);border-radius:.75rem;font-family:'Noto Kufi Arabic',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s"
+            onmouseover="this.style.background='rgba(46,138,153,.25)'" onmouseout="this.style.background='rgba(46,138,153,.15)'">
+            <span wire:loading.remove wire:target="saveDraft">حفظ كمسودة</span>
+            <span wire:loading wire:target="saveDraft">جاري الحفظ...</span>
+        </button>
+        <a href="{{ route('dashboard') }}"
+            style="flex:1;min-width:140px;padding:.75rem 1.5rem;background:transparent;color:rgba(240,232,204,.5);border:1px solid rgba(240,232,204,.15);border-radius:.75rem;font-size:.9rem;font-weight:600;text-decoration:none;text-align:center;transition:all .2s"
+            onmouseover="this.style.borderColor='rgba(240,232,204,.3)';this.style.color='rgba(240,232,204,.8)'" onmouseout="this.style.borderColor='rgba(240,232,204,.15)';this.style.color='rgba(240,232,204,.5)'">
+            إلغاء
+        </a>
     </div>
 </div>

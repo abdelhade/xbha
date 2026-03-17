@@ -22,7 +22,10 @@ class FavoriteController extends Controller
                 return back()->with('success', 'تم إزالة المنتج من المفضلة');
             }
 
-            auth()->user()->favorites()->create(['product_id' => $product->id]);
+            auth()->user()->favorites()->create([
+                'product_id' => $product->id,
+                'tenant_id'  => $product->tenant_id,
+            ]);
 
             return back()->with('success', 'تم إضافة المنتج للمفضلة');
         }

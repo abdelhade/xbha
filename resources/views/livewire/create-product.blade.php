@@ -57,12 +57,12 @@
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
-                    @hasrole('admin')
+
                     <a href="{{ route('categories.create') }}" target="_blank"
                         style="padding:.65rem .9rem;background:rgba(46,138,153,.2);border:1px solid rgba(46,138,153,.3);color:#3aa0b0;border-radius:.75rem;text-decoration:none;display:flex;align-items:center">
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
                     </a>
-                    @endhasrole
+
                 </div>
                 @error('category_id') <p style="margin-top:.35rem;font-size:.78rem;color:#f47c51">{{ $message }}</p> @enderror
             </div>
